@@ -1,0 +1,746 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Unkey API",
+    "description": "A mock API for key management and analytics",
+    "version": "1.0.0",
+    "contact": {
+      "name": "API Support",
+      "email": "support@unkey.dev",
+      "url": "https://unkey.dev"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.unkey.dev/v1",
+      "description": "Production server"
+    },
+    {
+      "url": "https://staging-api.unkey.dev/v1",
+      "description": "Staging server"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/keys": {
+      "get": {
+        "summary": "List all keys",
+        "description": "Retrieve a list of all API keys for the authenticated workspace",
+        "tags": ["Keys"],
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of keys to return (max 100)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Number of keys to skip",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of keys retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "keys": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Key"
+                      }
+                    },
+                    "total": {
+                      "type": "integer",
+                      "description": "Total number of keys"
+                    },
+                    "hasMore": {
+                      "type": "boolean",
+                      "description": "Whether there are more keys to fetch"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new key",
+        "description": "Create a new API key with specified permissions and metadata",
+        "tags": ["Keys"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateKeyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Key created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "key": {
+                      "$ref": "#/components/schemas/Key"
+                    },
+                    "keyId": {
+                      "type": "string",
+                      "description": "Unique identifier for the created key"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/keys/{keyId}": {
+      "get": {
+        "summary": "Get a specific key",
+        "description": "Retrieve details of a specific API key by its ID",
+        "tags": ["Keys"],
+        "parameters": [
+          {
+            "name": "keyId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the key",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Key details retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Key"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update a key",
+        "description": "Update properties of an existing API key",
+        "tags": ["Keys"],
+        "parameters": [
+          {
+            "name": "keyId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the key",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateKeyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Key updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Key"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a key",
+        "description": "Permanently delete an API key",
+        "tags": ["Keys"],
+        "parameters": [
+          {
+            "name": "keyId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the key",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Key deleted successfully"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/keys/{keyId}/verify": {
+      "post": {
+        "summary": "Verify a key",
+        "description": "Verify if an API key is valid and return its details",
+        "tags": ["Keys"],
+        "parameters": [
+          {
+            "name": "keyId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the key",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Key verification result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "valid": {
+                      "type": "boolean",
+                      "description": "Whether the key is valid"
+                    },
+                    "key": {
+                      "$ref": "#/components/schemas/Key"
+                    },
+                    "usage": {
+                      "$ref": "#/components/schemas/Usage"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/analytics/usage": {
+      "get": {
+        "summary": "Obtener análisis de uso",
+        "description": "Retrieve usage analytics for keys in a given time period",
+        "tags": ["Analytics"],
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "required": true,
+            "description": "Start date for analytics (ISO 8601)",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "required": true,
+            "description": "End date for analytics (ISO 8601)",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "granularity",
+            "in": "query",
+            "description": "Data granularity",
+            "schema": {
+              "type": "string",
+              "enum": ["hour", "day", "week", "month"],
+              "default": "day"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usage analytics retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalyticsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/workspaces": {
+      "get": {
+        "summary": "List workspaces",
+        "description": "Get all workspaces accessible by the authenticated user",
+        "tags": ["Workspaces"],
+        "responses": {
+          "200": {
+            "description": "List of workspaces",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "workspaces": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Workspace"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "Key": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the key"
+          },
+          "key": {
+            "type": "string",
+            "description": "The actual API key value"
+          },
+          "name": {
+            "type": "string",
+            "description": "Human-readable name for the key"
+          },
+          "workspaceId": {
+            "type": "string",
+            "description": "ID of the workspace this key belongs to"
+          },
+          "apiId": {
+            "type": "string",
+            "description": "ID of the API this key is for"
+          },
+          "environment": {
+            "type": "string",
+            "enum": ["production", "staging", "development"],
+            "description": "Environment this key is for"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the key was created"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the key was last updated"
+          },
+          "expires": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the key expires (null if no expiration)"
+          },
+          "rateLimit": {
+            "$ref": "#/components/schemas/RateLimit"
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of permissions granted to this key"
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Custom metadata associated with the key"
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether the key is currently enabled"
+          }
+        },
+        "required": ["id", "key", "workspaceId", "createdAt", "enabled"]
+      },
+      "CreateKeyRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Human-readable name for the key"
+          },
+          "apiId": {
+            "type": "string",
+            "description": "ID of the API this key is for"
+          },
+          "environment": {
+            "type": "string",
+            "enum": ["production", "staging", "development"],
+            "description": "Environment this key is for"
+          },
+          "expires": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the key should expire"
+          },
+          "rateLimit": {
+            "$ref": "#/components/schemas/RateLimit"
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of permissions to grant to this key"
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Custom metadata to associate with the key"
+          }
+        },
+        "required": ["apiId"]
+      },
+      "UpdateKeyRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Human-readable name for the key"
+          },
+          "expires": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the key should expire"
+          },
+          "rateLimit": {
+            "$ref": "#/components/schemas/RateLimit"
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of permissions to grant to this key"
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Custom metadata to associate with the key"
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether the key should be enabled"
+          }
+        }
+      },
+      "RateLimit": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["fast", "consistent"],
+            "description": "Type of rate limiting algorithm"
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Number of requests allowed"
+          },
+          "refillRate": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "How many tokens to refill per refillInterval"
+          },
+          "refillInterval": {
+            "type": "integer",
+            "minimum": 1000,
+            "description": "Refill interval in milliseconds"
+          }
+        },
+        "required": ["type", "limit", "refillRate", "refillInterval"]
+      },
+      "Usage": {
+        "type": "object",
+        "properties": {
+          "requestCount": {
+            "type": "integer",
+            "description": "Total number of requests made with this key"
+          },
+          "lastUsed": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the key was last used"
+          },
+          "remaining": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Remaining rate limit tokens (null if no rate limit)"
+          }
+        }
+      },
+      "AnalyticsResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "time": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Timestamp for this data point"
+                },
+                "requests": {
+                  "type": "integer",
+                  "description": "Number of requests in this time period"
+                },
+                "errors": {
+                  "type": "integer",
+                  "description": "Number of errors in this time period"
+                },
+                "success": {
+                  "type": "integer",
+                  "description": "Number of successful requests in this time period"
+                }
+              },
+              "required": ["time", "requests", "errors", "success"]
+            }
+          },
+          "total": {
+            "type": "object",
+            "properties": {
+              "requests": {
+                "type": "integer",
+                "description": "Total requests in the time period"
+              },
+              "errors": {
+                "type": "integer",
+                "description": "Total errors in the time period"
+              },
+              "success": {
+                "type": "integer",
+                "description": "Total successful requests in the time period"
+              }
+            }
+          }
+        }
+      },
+      "Workspace": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the workspace"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the workspace"
+          },
+          "slug": {
+            "type": "string",
+            "description": "URL-friendly identifier for the workspace"
+          },
+          "plan": {
+            "type": "string",
+            "enum": ["free", "pro", "enterprise"],
+            "description": "Subscription plan for the workspace"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the workspace was created"
+          },
+          "features": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Available features for this workspace"
+          }
+        },
+        "required": ["id", "name", "slug", "plan", "createdAt"]
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "description": "Error code"
+              },
+              "message": {
+                "type": "string",
+                "description": "Human-readable error message"
+              },
+              "docs": {
+                "type": "string",
+                "description": "Link to documentation about this error"
+              }
+            },
+            "required": ["code", "message"]
+          }
+        }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Bad request - invalid parameters",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Unauthorized - invalid or missing authentication",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Resource not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "InternalServerError": {
+        "description": "Internal server error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Keys",
+      "description": "API key management operations"
+    },
+    {
+      "name": "Analytics",
+      "description": "Usage analytics and reporting"
+    },
+    {
+      "name": "Workspaces",
+      "description": "Workspace management operations"
+    }
+  ]
+}

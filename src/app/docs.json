@@ -1,0 +1,26 @@
+{
+  "en": [
+    {
+      "title": "Components",
+      "description": "Components!",
+      "url": "/en/docs"
+    },
+    {
+      "title": "API",
+      "description": "API Components!",
+      "url": "/en/api"
+    }
+  ],
+  "es": [
+    {
+      "title": "Componentes",
+      "description": "¡Componentes!",
+      "url": "/es/docs"
+    },
+    {
+      "title": "API",
+      "description": "¡Componentes API!",
+      "url": "/es/api"
+    }
+  ]
+}

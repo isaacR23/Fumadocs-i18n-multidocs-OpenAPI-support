@@ -1,0 +1,57 @@
+import { apiSource } from '@/lib/source';
+import {
+  DocsBody,
+  DocsDescription,
+  DocsPage,
+  DocsTitle,
+} from 'fumadocs-ui/page';
+import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+import { createRelativeLink } from 'fumadocs-ui/mdx';
+import { getMDXComponents } from '@/mdx-components';
+
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ lang: string; slug?: string[] }>;
+}) {
+
+  const { slug, lang } = await params;
+
+  const page = apiSource.getPage(slug, lang);
+  if (!page) notFound();
+
+  const MDXContent = page.data.body;
+
+  return (
+    <DocsPage toc={page.data.toc} full={page.data.full}>
+      <DocsTitle>{page.data.title}</DocsTitle>
+      <DocsDescription>{page.data.description}</DocsDescription>
+      <DocsBody>
+        <MDXContent
+          components={getMDXComponents({
+            // this allows you to link to other pages with relative file paths
+            a: createRelativeLink(apiSource, page),
+          })}
+        />
+      </DocsBody>
+    </DocsPage>
+  );
+}
+
+export async function generateStaticParams() {
+  return apiSource.generateParams('slug', 'locale'); 
+}
+
+export async function generateMetadata(
+  props: { params: Promise<{ lang: string; slug?: string[] }> },
+): Promise<Metadata> {
+  const params = await props.params;
+  const page = apiSource.getPage(params.slug, params.lang);
+  if (!page) notFound();
+
+  return {
+    title: page.data.title,
+    description: page.data.description,
+  };
+}
