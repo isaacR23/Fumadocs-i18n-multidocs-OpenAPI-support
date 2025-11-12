@@ -8,4 +8,5 @@ export const openapi = createOpenAPI({
 export const openapiEs = createOpenAPI({
   // the OpenAPI schema, you can also give it an external URL.
   input: ['./unkeyEs.json'],
+
 });

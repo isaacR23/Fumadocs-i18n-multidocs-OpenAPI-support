@@ -1,0 +1,196 @@
+---
+title: Internationalization
+description: Add multi-language support to your Fumadocs site
+---
+
+## Overview
+
+Fumadocs provides built-in support for internationalization (i18n), allowing you to create documentation in multiple languages and automatically handle language switching.
+
+## Basic Setup
+
+### 1. Install the i18n package
+
+```bash
+npm install fumadocs-i18n
+```
+
+### 2. Configure languages
+
+Update your `source.config.ts`:
+
+```typescript
+import { defineConfig } from 'fumadocs-mdx/config';
+import { i18n } from 'fumadocs-i18n';
+
+export default defineConfig({
+  plugins: [
+    i18n({
+      languages: [
+        {
+          code: 'en',
+          name: 'English',
+          default: true,
+        },
+        {
+          code: 'es',
+          name: 'Español',
+        },
+        {
+          code: 'fr',
+          name: 'Français',
+        },
+      ],
+    }),
+  ],
+});
+```
+
+### 3. Organize content by language
+
+```
+content/docs/
+├── en/
+│   ├── index.mdx
+│   ├── getting-started.mdx
+│   └── api/
+│       └── reference.mdx
+├── es/
+│   ├── index.mdx
+│   ├── getting-started.mdx
+│   └── api/
+│       └── reference.mdx
+└── fr/
+    ├── index.mdx
+    ├── getting-started.mdx
+    └── api/
+        └── reference.mdx
+```
+
+## Language Switcher
+
+The language switcher automatically appears in your navigation, allowing users to switch between available languages.
+
+## URL Structure
+
+With i18n enabled, your URLs will include the language code:
+
+- `/docs/en/getting-started` - English getting started
+- `/docs/es/getting-started` - Spanish getting started
+- `/docs/fr/getting-started` - French getting started
+- `/docs/getting-started` - Default language (English)
+
+## Default Language
+
+The default language is used when no language code is specified in the URL. Users visiting `/docs` will see the default language.
+
+## Content Translation
+
+### Frontmatter
+
+Each language can have custom frontmatter:
+
+```yaml
+---
+title: Getting Started
+description: Learn how to get started with Fumadocs
+lang: en
+---
+```
+
+### Translation Keys
+
+Use translation keys for consistent terminology:
+
+```typescript
+// lib/translations.ts
+export const translations = {
+  en: {
+    'getting-started': 'Getting Started',
+    'learn-more': 'Learn More',
+  },
+  es: {
+    'getting-started': 'Comenzar',
+    'learn-more': 'Aprende Más',
+  },
+  fr: {
+    'getting-started': 'Commencer',
+    'learn-more': 'En Savoir Plus',
+  },
+};
+```
+
+## Advanced Features
+
+### Custom Language Logic
+
+```typescript
+i18n({
+  languages: [
+    {
+      code: 'en',
+      name: 'English',
+      default: true,
+    },
+    {
+      code: 'es',
+      name: 'Español',
+      // Custom logic for when to show this language
+      condition: () => process.env.NODE_ENV === 'production',
+    },
+  ],
+})
+```
+
+### Language-specific Components
+
+Create language-specific components and layouts:
+
+```tsx
+import { useLanguage } from 'fumadocs-i18n';
+
+function LanguageSpecificComponent() {
+  const { language } = useLanguage();
+  
+  if (language === 'es') {
+    return <ComponenteEnEspanol />;
+  }
+  
+  return <EnglishComponent />;
+}
+```
+
+### SEO Optimization
+
+Each language gets proper SEO metadata:
+
+```typescript
+export async function generateMetadata({ params }) {
+  const { lang } = params;
+  
+  return {
+    title: `Documentation - ${lang.toUpperCase()}`,
+    alternates: {
+      languages: {
+        'en': '/docs/en',
+        'es': '/docs/es',
+        'fr': '/docs/fr',
+      },
+    },
+  };
+}
+```
+
+## Best Practices
+
+- **Consistent Structure**: Keep the same file structure across languages
+- **Quality Translation**: Ensure high-quality translations, not just machine translation
+- **Cultural Adaptation**: Adapt content for different cultural contexts
+- **Testing**: Test navigation and links across all languages
+- **Performance**: Consider lazy loading for non-default languages
+
+## Next Steps
+
+- [Manual Installation](/docs/manual-installation)
+- [Explore UI Components](/docs/ui/components)
+- [Learn about Search](/docs/ui/search)

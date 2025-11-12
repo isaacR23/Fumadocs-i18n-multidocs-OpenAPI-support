@@ -1,0 +1,104 @@
+---
+title: Next.js Installation
+description: Add Landing Analytics to your Next.js application with proper client-side initialization
+---
+
+## Basic Setup
+
+Create a new component (e.g., `components/LandingAnalytics.js`) to handle the analytics initialization:
+
+```javascript
+'use client'
+
+import { useEffect } from 'react'
+
+export default function LandingAnalytics() {
+  useEffect(() => {
+    // Set up analytics configuration
+    window.LANDING_ANALYTICS_PUBLIC_TOKEN = '${user_account_token}'
+    window.LANDING_ANALYTICS_SITE_ID = '${route.params.project_id}'
+    window.LANDING_ANALYTICS_DNT = '${domainSettings.collectDNT}'
+
+    // Load the tracking script
+    const script = document.createElement('script')
+    script.src = 'https://unpkg.com/@landinganalytics-lib/tracker'
+    script.async = true
+    document.head.appendChild(script)
+  }, [])
+
+  return null
+}
+```
+
+## Environment Setup
+
+Create or update your `.env.local` file with your Public Token:
+
+```bash
+NEXT_PUBLIC_ANALYTICS_PUBLIC_TOKEN=your_account_public_token_here
+NEXT_PUBLIC_ANALYTICS_SITE_ID=your_site_id_here
+```
+
+## Component Integration
+
+Add the analytics component to your app layout (e.g., `app/layout.js`):
+
+```javascript
+import LandingAnalytics from '@/components/LandingAnalytics'
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <body>
+        <LandingAnalytics />
+        {children}
+      </body>
+    </html>
+  )
+}
+```
+
+## A/B Testing Setup
+
+To enable A/B testing, update your LandingAnalytics component:
+
+```javascript
+'use client'
+
+import { useEffect } from 'react'
+
+export default function LandingAnalytics() {
+  useEffect(() => {
+    // Set up A/B testing variants
+    window.LANDING_VARIANTS = [
+      { name: 'ab', path: '/path#ab' },
+      { name: 'ba', path: '/path#ba' }
+    ]
+
+    // Rest of the configuration
+    window.LANDING_ANALYTICS_PUBLIC_TOKEN = '${user_account_token}'
+    window.LANDING_ANALYTICS_SITE_ID = '${route.params.project_id}'
+    window.LANDING_ANALYTICS_DNT = '${domainSettings.collectDNT}'
+
+    const script = document.createElement('script')
+    script.src = 'https://unpkg.com/@landinganalytics-lib/tracker'
+    script.async = true
+    document.head.appendChild(script)
+  }, [])
+
+  return null
+}
+```
+
+**Notes:**
+- You can define up to 2 different variants
+- If no variants are specified, it defaults to 'base'
+- The path parameter is decorative and can include additional information
+
+## Security Best Practices
+
+- Always use environment variables for sensitive information
+- Disable CORS to ensure proper endpoint communication
+- Consider implementing Cloudflare Turnstile or Google reCAPTCHA to prevent malicious traffic
+- Keep your Public Token secure and never expose it in client-side code without the NEXT_PUBLIC_ prefix
+

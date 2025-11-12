@@ -1,0 +1,45 @@
+---
+title: Framer Installation
+description: Add Landing Analytics to your Framer website using the Embed component
+---
+
+## Embed Component Setup
+
+Follow these steps to add Landing Analytics to your Framer project:
+
+1. Go to the search components section
+2. Find and select the "Embed" component
+3. Insert the component into your page
+4. Locate the embed section in the right bottom column of the component properties
+5. Select "HTML" as the embed type
+6. Copy and paste the following code:
+
+```html
+<a title='Web Analytics For Your Landing Page' href='https://docs.landinganalytics.com/en/docs/legal/privacy-policy'> <img src='https://29vttzhyyw.ufs.sh/f/s54LtHZ2i7LYy6qTZEOuQ5i3ZfR6nrPj1lAwzL9qhT4xycpO' alt='Landing' /> </a>
+<script>window.LANDING_ANALYTICS_PUBLIC_TOKEN = '${user_account_token}';</script>
+<script>window.LANDING_ANALYTICS_SITE_ID = '${route.params.project_id}';</script>
+<script>window.LANDING_ANALYTICS_DNT = '${domainSettings.collectDNT}';</script>
+<script type='module' src='https://unpkg.com/@landinganalytics-lib/tracker-framer' async></script>
+```
+
+## Important Notes
+
+> **Important:**
+> 
+> - You can only set up one script tag per embed component. Make sure to combine all the necessary code in a single script tag if needed.
+> - **A/B Testing Not Available**: Framer integration currently does not support A/B testing functionality.
+> - The script must include `type='module'` for proper ES module loading.
+
+## Security Best Practices
+
+- Disable CORS to ensure proper endpoint communication
+- Consider implementing Cloudflare Turnstile or Google reCAPTCHA to prevent malicious traffic
+- Keep your Public Token key secure and never share it publicly
+
+## Getting Your Public Token
+
+To find your Public Token:
+
+1. Go to the projects dashboard
+2. Click on your profile picture in the top right corner
+3. Select "Tokens"

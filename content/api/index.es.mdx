@@ -1,13 +1,74 @@
 ---
-title: Hola Mundo
-description: Tu primer documento
+title: Introducción
+description: Bienvenido a Landing Analytics - La plataforma de analíticas construida para fundadores
 ---
 
-¡Bienvenido a la documentación! Puedes comenzar a escribir documentos en `/content/docs`.
+import { Step, Steps } from 'fumadocs-ui/components/steps';
 
-## ¿Qué sigue?
+## Resumen
+La API REST está diseñada para facilitar la gestión de tus analíticas. Puedes construir dashboards personalizados, alimentar sistemas de inteligencia artificial con nueva información, integrar métricas de rendimiento en tus propios sistemas - las posibilidades son ilimitadas.
 
-<Cards>
-  <Card title="Aprende más sobre Next.js" href="https://nextjs.org/docs" />
-  <Card title="Aprende más sobre Fumadocs" href="https://fumadocs.vercel.app" />
-</Cards>
+Para comenzar con la API REST, necesitas:
+
+<Steps>
+<Step>
+
+### Ir al dashboard
+
+Navega a tu dashboard de Landing Analytics.
+
+</Step>
+
+<Step>
+
+### Seleccionar un proyecto
+
+Elige el proyecto con el que quieres trabajar de tu lista de proyectos.
+
+</Step>
+
+<Step>
+
+### Acceder a las Claves de API
+
+Haz clic en la esquina superior derecha del dashboard del proyecto.
+
+</Step>
+
+<Step>
+
+### Navegar a Claves
+
+Selecciona "Claves" del menú desplegable para acceder a tus credenciales de API.
+
+</Step>
+
+<Step>
+
+### Copiar tu Clave Secreta de API
+
+Copia la Clave Secreta de API que usarás como tu token bearer.
+
+</Step>
+</Steps>
+
+Este es el token bearer que usarás para interactuar con los diferentes endpoints REST.
+
+## Importante: Token Público de Ingesta
+
+El token público de ingesta es separado de tu clave de API REST. El token público se usa específicamente para ingerir eventos en tu cuenta (por ejemplo, con el rastreador JavaScript) y se comparte entre todos tus proyectos. La clave de API REST, por otro lado, es única para cada proyecto y se usa para autenticar solicitudes a los endpoints de la API REST como se describe arriba.
+
+**⚠️ Advertencia:** Si regeneras este token público de ingesta, la clave de API para TODOS tus proyectos cambiará.
+
+## Características Principales
+
+- Analíticas enfocadas en privacidad - ¡no usamos cookies!
+- Integración fácil con frameworks populares
+- Datos e insights en tiempo real
+- Rastrea pruebas A/B con diferentes páginas de destino
+- Marca eventos relevantes en tu tráfico
+
+## Comenzando
+¿Listo para comenzar? Revisa nuestra guía de Inicio Rápido o explora nuestras integraciones específicas para frameworks.
+
+

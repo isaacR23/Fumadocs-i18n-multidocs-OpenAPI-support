@@ -3,7 +3,7 @@ import { openapi, openapiEs } from '@/lib/openapi';
 
 void generateFiles({
   input: openapi,
-  output: './content/api-test',
+  output: './content/api',
   includeDescription: true,
 });
 

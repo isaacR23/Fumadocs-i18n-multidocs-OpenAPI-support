@@ -1,5 +1,9 @@
 import { i18n } from '@/lib/i18n';
 import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
+import Image from 'next/image';
+import { UtilitiesRowSmall } from '@/components/utilities-row-small';
+import { UtilitiesRow } from '@/components/utilities-row';
+
 /**
  * Shared layout configurations
  *
@@ -14,19 +18,25 @@ export function baseOptions(locale: string): BaseLayoutProps {
     nav: {
       title: (
         <>
-          <svg
-            width="24"
-            height="24"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-label="Logo"
-          >
-            <circle cx={12} cy={12} r={12} fill="currentColor" />
-          </svg>
-          My App
+          <Image
+            src="/LandingAnalyticsSquare.png"
+            alt="Landing Analytics Logo"
+            width={20}
+            height={20}
+            className="rounded"
+          />
+          <span className="ml-1 text-lg">Landing Analytics</span>
         </>
-      ),
+      )
     },
     // see https://fumadocs.dev/docs/ui/navigation/links
     links: [],
+    searchToggle: {
+      components: {
+        sm: <UtilitiesRowSmall />,
+        lg: <UtilitiesRow />
+      }
+    },
+    
   };
 }

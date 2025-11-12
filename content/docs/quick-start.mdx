@@ -1,0 +1,163 @@
+---
+title: Quick Start Guide
+description: Get started with Landing Analytics in minutes with this basic installation guide
+---
+
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+import Link from 'fumadocs-core/link';
+
+## Getting Started
+
+Follow these steps to set up Landing Analytics on your website:
+
+<Steps>
+<Step>
+
+### Sign up with a Google account
+
+Currently, we only allow sign-up via a Google account for safety and security reasons.
+
+Visit [Landing Analytics](https://app.landinganalytics.com/sign-up) and click "Sign up with Google" to create your account.
+
+</Step>
+
+<Step>
+
+### Answer a brief questionnaire
+
+Complete a short questionnaire to help us understand your analytics needs and customize your experience.
+
+This enables us to provide more accurate insights and recommendations tailored to your specific use case.
+
+</Step>
+
+<Step>
+
+### Click on your "First Project"
+
+Once you're logged in, you'll see your dashboard. Click on "First Project" to get started with your analytics setup.
+
+This will take you to your project dashboard, where you can manage your analytics configuration.
+
+</Step>
+
+<Step>
+
+### Basic Setup
+
+Add the following script tags to your HTML file, right before the closing body tag:
+
+```html
+<a title='Web Analytics For Your Landing Page' href='https://docs.landinganalytics.com/en/docs/legal/privacy-policy'> <img src='https://29vttzhyyw.ufs.sh/f/s54LtHZ2i7LYy6qTZEOuQ5i3ZfR6nrPj1lAwzL9qhT4xycpO' alt='Landing' /> </a>
+<script>window.LANDING_ANALYTICS_PUBLIC_TOKEN = '${user_api_key}';</script>
+<script>window.LANDING_ANALYTICS_SITE_ID = '${route.params.project_id}';</script>
+<script>window.LANDING_ANALYTICS_DNT = '${domainSettings.collectDNT}';</script>
+<script src='https://unpkg.com/@landinganalytics-lib/tracker' async></script>
+```
+
+Replace the template variables with your actual values:
+- `${user_api_key}` - Your account public token
+- `${route.params.project_id}` - Your site/project ID  
+- `${domainSettings.collectDNT}` - Your Do Not Track setting (true/false)
+
+</Step>
+
+<Step>
+
+### Section Tracking Setup
+
+To start tracking specific sections of your landing page, wrap each section you want to monitor in `<section name="SECTION_NAME"></section>` tags.
+
+**Example:**
+
+```html
+<section name="hero">
+    <h1>Your Hero Content</h1>
+</section>
+
+<section name="features">
+    <h2>Product Features</h2>
+</section>
+
+<section name="pricing">
+    <h2>Pricing Plans</h2>
+</section>
+```
+
+This allows you to track user engagement with different parts of your landing page.
+
+</Step>
+</Steps>
+
+## Personalization & Settings
+
+You can customize your analytics tracking with additional configuration options:
+
+### Platform-Specific Settings
+```html
+<!-- For Framer sites - tracks data-framer-name elements -->
+<script>window.LANDING_ANALYTICS_USE_FRAMER = true;</script>
+
+<!-- Custom section attribute for identification -->
+<script>window.LANDING_ANALYTICS_FOCUS = 'data-section-id';</script>
+```
+**Description:** 
+- **Framer Mode:** When enabled, the tracker looks for `<section>` tags with `data-framer-name` attributes instead of standard `name` attributes
+- **Custom Focus:** Specify a custom HTML attribute name to use for section identification. Falls back to `data-name`, `name`, or `id` if not specified
+
+### Privacy & Consent Management
+```html
+<!-- Require user consent before tracking -->
+<script>window.LANDING_ANALYTICS_REQUIRE_CONSENT = true;</script>
+
+<!-- User has given consent -->
+<script>window.LANDING_ANALYTICS_CONSENT = true;</script>
+```
+**Description:** Implement GDPR-compliant consent management. When `REQUIRE_CONSENT` is true, tracking will only begin after `CONSENT` is set to true. This ensures compliance with privacy regulations.
+
+### Performance Tuning
+```html
+<!-- Reporting interval (default: 10000ms) -->
+<script>window.LANDING_ANALYTICS_INTERIM_REPORTING_INTERVAL_MS = 15000;</script>
+
+<!-- Minimum visibility time (default: 1000ms) -->
+<script>window.LANDING_ANALYTICS_MIN_VISIBILITY_TIME_MS = 2000;</script>
+
+<!-- Section visibility threshold (default: 0.8) -->
+<script>window.LANDING_ANALYTICS_SECTION_VISIBILITY_THRESHOLD = 0.75;</script>
+
+<!-- Killswitch timeout (default: 300000ms) -->
+<script>window.LANDING_ANALYTICS_KILLSWITCH_TIME = 600000;</script>
+```
+**Description:**
+- **Interim Reporting:** How often to send "ping" reports for long-viewed sections to prevent data loss (in milliseconds)
+- **Minimum Visibility Time:** Minimum time a section must be visible before tracking (prevents accidental brief views)
+- **Visibility Threshold:** Percentage of section that must be visible (0.0 to 1.0) before counting as "viewed"
+- **Killswitch Time:** Maximum time to track before automatically stopping (prevents excessive data collection)
+
+### Advanced Tracking Features
+```html
+<!-- Track specific elements with data-track-click -->
+<button data-track-click="cta-click" data-conversion-value="100">Buy Now</button>
+
+<!-- Track links automatically -->
+<a href="/pricing">View Pricing</a>
+```
+**Description:** The library automatically tracks:
+- **Click Events:** Elements with `data-track-click` attribute
+- **Link Clicks:** All `<a>` tags with href attributes
+- **Section Clicks:** Any click within tracked sections
+- **Custom Events:** Use `data-track-click="event-name"` for custom event names
+
+## Getting Your API Key
+
+Learn about API keys and advanced features in our <Link href="/en/api">API documentation</Link>.
+
+## Best Practices
+
+- Disable CORS to ensure proper endpoint communication
+- Consider using Cloudflare Turnstile or Google reCAPTCHA to prevent malicious traffic
+
+## Next Steps
+
+For framework-specific installations (Vue, Nuxt, Next.js, etc.), check out our Framework Integration guides in the sidebar.

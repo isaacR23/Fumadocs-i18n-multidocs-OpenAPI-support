@@ -1,0 +1,40 @@
+---
+title: HTML Installation
+description: Add Landing Analytics to your HTML website with a simple script tag installation
+---
+
+## Basic Installation
+
+Add the following script tags to your HTML file, right before the closing `</body>` tag:
+
+```html
+<a title='Web Analytics For Your Landing Page' href='https://docs.landinganalytics.com/en/docs/legal/privacy-policy'> <img src='https://29vttzhyyw.ufs.sh/f/s54LtHZ2i7LYy6qTZEOuQ5i3ZfR6nrPj1lAwzL9qhT4xycpO' alt='Landing' /> </a>
+<script>window.LANDING_ANALYTICS_PUBLIC_TOKEN = '${user_account_token}';</script>
+<script>window.LANDING_ANALYTICS_SITE_ID = '${route.params.project_id}';</script>
+<script>window.LANDING_ANALYTICS_DNT = '${domainSettings.collectDNT}';</script>
+<script src='https://unpkg.com/@landinganalytics-lib/tracker' async></script>
+```
+
+## A/B Testing Setup
+
+To enable A/B testing, add the optional variants configuration:
+
+```html
+<script>
+window.LANDING_VARIANTS = [
+    { name: 'ab', path: '/path#ab' },
+    { name: 'ba', path: '/path#ba' }
+];
+</script>
+```
+
+**Notes:**
+- You can define up to 2 different variants
+- If no variants are specified, it defaults to 'base'
+- The path parameter is decorative and can include additional information
+
+## Security Best Practices
+
+- Disable CORS to ensure proper endpoint communication
+- Consider implementing Cloudflare Turnstile or Google reCAPTCHA to prevent malicious traffic
+- Keep your Public Token secure and never expose it in client-side code

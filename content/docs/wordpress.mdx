@@ -1,0 +1,94 @@
+---
+title: WordPress Integration
+description: Learn how to integrate Landing Analytics with WordPress using Gutenberg blocks and theme customization
+---
+
+## Introduction
+
+Landing Analytics can be easily integrated with WordPress sites using Gutenberg blocks or theme customization. This guide will show you how to add the tracking script and configure analytics for your WordPress site.
+
+### FAQ
+
+**Will this work with any WordPress theme?**
+Yes, our script tag integration works with any WordPress theme, whether you're using a custom theme or a popular theme builder.
+
+**Does it affect site performance?**
+The script is lightweight and loads asynchronously, ensuring minimal impact on your site's performance.
+
+## Basic Setup
+
+Before adding the tracking script, you'll need your public token credentials:
+
+```javascript
+// Initialize Landing Analytics
+window.LANDING_ANALYTICS_PUBLIC_TOKEN = '${user_account_token}';
+window.LANDING_ANALYTICS_SITE_ID = '${route.params.project_id}';
+window.LANDING_ANALYTICS_DNT = '${domainSettings.collectDNT}';
+```
+
+## Gutenberg Integration
+
+Add the tracking script using the Gutenberg HTML block:
+
+1. Open your WordPress site editor
+2. Edit your site's header template part
+3. Add a new Custom HTML block
+4. Paste the following code:
+
+```html
+<script>
+  // Initialize Landing Analytics
+  window.LANDING_ANALYTICS_PUBLIC_TOKEN = '${user_account_token}';
+  window.LANDING_ANALYTICS_SITE_ID = '${route.params.project_id}';
+  window.LANDING_ANALYTICS_DNT = '${domainSettings.collectDNT}';
+</script>
+<script async src="https://unpkg.com/@landinganalytics-lib/tracker"></script>
+```
+
+## Theme Integration
+
+Alternatively, add the script directly to your theme's header:
+
+1. Navigate to Appearance → Theme File Editor
+2. Select header.php
+3. Add the following code just before the closing `</head>` tag:
+
+```php
+<?php
+// Check if we're not in the admin area
+if (!is_admin()) :
+?>
+<script>
+  window.LANDING_ANALYTICS_PUBLIC_TOKEN = '<?php echo esc_attr(get_option('landing_analytics_public_token')); ?>';
+  window.LANDING_ANALYTICS_SITE_ID = '<?php echo esc_attr(get_option('landing_analytics_site_id')); ?>';
+</script>
+<script async src="https://unpkg.com/@landinganalytics-lib/tracker"></script>
+<?php endif; ?>
+```
+
+## A/B Testing
+
+Configure A/B testing by adding variant configuration to your tracking script:
+
+```html
+<script>
+  // Initialize Landing Analytics with variants
+  window.LANDING_ANALYTICS_PUBLIC_TOKEN = '${user_account_token}';
+  window.LANDING_ANALYTICS_SITE_ID = '${route.params.project_id}';
+  window.LANDING_ANALYTICS_DNT = '${domainSettings.collectDNT}';
+  window.LANDING_VARIANTS = [
+    { name: 'control', path: '/landing#control' },
+    { name: 'variant-a', path: '/landing#variant-a' }
+  ];
+</script>
+```
+
+## Security Best Practices
+
+- Store Public Token in wp-config.php instead of directly in the theme
+- Use WordPress's built-in esc_attr() function to sanitize output
+- Only load the tracking script on the frontend, not in the admin area
+- Consider using WordPress's nonce system for enhanced security
+- Implement proper user consent management for GDPR compliance
+
+

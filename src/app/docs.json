@@ -1,26 +1,30 @@
 {
   "en": [
     {
-      "title": "Components",
-      "description": "Components!",
-      "url": "/en/docs"
+      "title": "Platform",
+      "description": "Learn how to use Landing Analytics",
+      "url": "/en/docs",
+      "icon": "Notebook"
     },
     {
-      "title": "API",
-      "description": "API Components!",
-      "url": "/en/api"
+      "title": "Explore API",
+      "description": "Docs for the Explore API",
+      "url": "/en/api",
+      "icon": "Share2"
     }
   ],
   "es": [
     {
-      "title": "Componentes",
-      "description": "¡Componentes!",
-      "url": "/es/docs"
+      "title": "Platform",
+      "description": "Aprende cómo usar Landing Analytics",
+      "url": "/es/docs",
+      "icon": "Notebook"
     },
     {
-      "title": "API",
-      "description": "¡Componentes API!",
-      "url": "/es/api"
+      "title": "Explore API",
+      "description": "Documentación de la API REST",
+      "url": "/es/api",
+      "icon": "Share2"
     }
   ]
 }

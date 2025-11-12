@@ -1,0 +1,316 @@
+---
+title: Integrations
+description: Integrate Fumadocs with your favorite tools and services
+---
+
+## Content Management Systems
+
+### Strapi
+
+Integrate Fumadocs with Strapi for headless content management:
+
+```typescript
+import { createStrapiSource } from 'fumadocs-strapi';
+
+const source = createStrapiSource({
+  apiUrl: process.env.STRAPI_API_URL,
+  apiToken: process.env.STRAPI_API_TOKEN,
+  collection: 'documentation',
+});
+```
+
+### Contentful
+
+Connect Fumadocs to Contentful:
+
+```typescript
+import { createContentfulSource } from 'fumadocs-contentful';
+
+const source = createContentfulSource({
+  spaceId: process.env.CONTENTFUL_SPACE_ID,
+  accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
+  environment: 'master',
+});
+```
+
+### Sanity
+
+Integrate with Sanity CMS:
+
+```typescript
+import { createSanitySource } from 'fumadocs-sanity';
+
+const source = createSanitySource({
+  projectId: process.env.SANITY_PROJECT_ID,
+  dataset: process.env.SANITY_DATASET,
+  token: process.env.SANITY_TOKEN,
+});
+```
+
+## Analytics and Monitoring
+
+### Google Analytics
+
+Track documentation usage with Google Analytics:
+
+```typescript
+// app/layout.tsx
+import Script from 'next/script';
+
+export default function RootLayout({ children }) {
+  return (
+    <html>
+      <head>
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GA_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${process.env.GA_ID}');
+          `}
+        </Script>
+      </head>
+      <body>{children}</body>
+    </html>
+  );
+}
+```
+
+### Plausible Analytics
+
+Privacy-focused analytics with Plausible:
+
+```typescript
+// app/layout.tsx
+import Script from 'next/script';
+
+export default function RootLayout({ children }) {
+  return (
+    <html>
+      <head>
+        <Script
+          defer
+          data-domain="yourdomain.com"
+          src="https://plausible.io/js/script.js"
+        />
+      </head>
+      <body>{children}</body>
+    </html>
+  );
+}
+```
+
+## Search Services
+
+### Algolia DocSearch
+
+Professional search with Algolia DocSearch:
+
+```typescript
+import { createAlgoliaSearch } from 'fumadocs-algolia';
+
+const search = createAlgoliaSearch({
+  appId: process.env.ALGOLIA_APP_ID,
+  apiKey: process.env.ALGOLIA_API_KEY,
+  indexName: process.env.ALGOLIA_INDEX_NAME,
+});
+```
+
+### Meilisearch
+
+Self-hosted search with Meilisearch:
+
+```typescript
+import { createMeilisearch } from 'fumadocs-meilisearch';
+
+const search = createMeilisearch({
+  host: process.env.MEILISEARCH_HOST,
+  apiKey: process.env.MEILISEARCH_API_KEY,
+  indexName: 'documentation',
+});
+```
+
+## Deployment Platforms
+
+### Vercel
+
+Deploy to Vercel with automatic deployments:
+
+```json
+// vercel.json
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "out",
+  "framework": "nextjs"
+}
+```
+
+### Netlify
+
+Deploy to Netlify:
+
+```toml
+# netlify.toml
+[build]
+  command = "npm run build"
+  publish = "out"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+```
+
+### GitHub Pages
+
+Deploy to GitHub Pages:
+
+```yaml
+# .github/workflows/deploy.yml
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - run: npm ci
+      - run: npm run build
+      - uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./out
+```
+
+## Development Tools
+
+### ESLint
+
+Lint your documentation:
+
+```json
+// .eslintrc.json
+{
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:mdx/recommended"
+  ],
+  "plugins": ["mdx"],
+  "overrides": [
+    {
+      "files": ["**/*.mdx"],
+      "extends": "plugin:mdx/recommended"
+    }
+  ]
+}
+```
+
+### Prettier
+
+Format your documentation:
+
+```json
+// .prettierrc.json
+{
+  "semi": false,
+  "singleQuote": true,
+  "trailingComma": "es5",
+  "overrides": [
+    {
+      "files": "*.mdx",
+      "options": {
+        "proseWrap": "always"
+      }
+    }
+  ]
+}
+```
+
+## Custom Integrations
+
+### Creating Custom Sources
+
+Build your own content source:
+
+```typescript
+import type { Source } from 'fumadocs-core/source';
+
+export function createCustomSource(): Source {
+  return {
+    async getPage(slug) {
+      // Custom logic to fetch page data
+      return {
+        title: 'Custom Page',
+        body: () => <div>Custom content</div>,
+        // ... other page properties
+      };
+    },
+    
+    async generateParams() {
+      // Generate static params
+      return [];
+    },
+    
+    get pageTree() {
+      // Return page tree structure
+      return {
+        name: 'docs',
+        children: [],
+      };
+    },
+  };
+}
+```
+
+### Custom Search Providers
+
+Implement custom search:
+
+```typescript
+import type { SearchAPI } from 'fumadocs-core/search';
+
+export function createCustomSearch(): SearchAPI {
+  return {
+    async search(query) {
+      // Custom search implementation
+      return {
+        hits: [],
+        total: 0,
+      };
+    },
+  };
+}
+```
+
+## Environment Variables
+
+Set up your environment variables:
+
+```bash
+# .env.local
+STRAPI_API_URL=https://your-strapi.com
+STRAPI_API_TOKEN=your-token
+CONTENTFUL_SPACE_ID=your-space-id
+CONTENTFUL_ACCESS_TOKEN=your-access-token
+ALGOLIA_APP_ID=your-app-id
+ALGOLIA_API_KEY=your-api-key
+ALGOLIA_INDEX_NAME=your-index-name
+GA_ID=G-XXXXXXXXXX
+```
+
+## Next Steps
+
+- [Learn about Internationalization](/docs/internationalization)
+- [Manual Installation](/docs/manual-installation)
+- [Explore UI Components](/docs/ui/components)

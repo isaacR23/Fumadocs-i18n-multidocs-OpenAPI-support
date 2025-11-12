@@ -1,0 +1,1197 @@
+# Landing Analytics - Complete Guide for Coding Agents
+
+## What is Landing Analytics?
+
+Landing Analytics is a privacy-focused analytics platform built specifically for developers. It provides powerful website analytics tools while respecting user privacy and data protection regulations. The platform offers real-time data insights, advanced tracking capabilities, and customizable dashboards without compromising user privacy.
+
+## Core Features
+
+- **Privacy-focused analytics** - Compliant with privacy regulations, we dont collect sensitive data or visitors ip
+- **Easy framework integration** - Simple script tag installation for any framework
+- **Real-time data and insights** - Live tracking and reporting
+- **Advanced tracking capabilities** - Section tracking, user behavior analysis, visitor frequency patterns
+- **A/B testing platform** - Built-in experimentation tools with variant assignment
+- **Traffic event flags** - Mark and track key events that impact website traffic
+- **Saturation analysis** - Understand ad saturation and optimal impression frequency
+- **Customizable dashboards** - Tailored analytics views with real-time insights
+- **Performance optimized** - Lightweight tracking script with minimal impact
+
+## How Landing Analytics Works
+
+### Architecture Overview
+
+Landing Analytics uses a client-side tracking approach with a centralized analytics backend:
+
+1. **Tracking Script**: A lightweight JavaScript tracker loaded from https://unpkg.com/@landinganalytics-lib/tracker
+2. **Configuration**: Site ID and Public Token configuration via global variables
+3. **Data Collection**: Automatic tracking of page views, user interactions, and custom events
+4. **Data Ingestion**: Data sent to our distributed ingestion servers at ingestor.landinganalytics.com for processing and filtering
+5. **Traffic Filtering**: Non-human traffic is filtered out at the ingestion layer to ensure data quality
+6. **Analytics Dashboard**: Web-based interface for viewing insights and reports
+
+### Data Ingestion & Processing
+
+Our ingestion process is designed to ensure data quality and reliability:
+
+- **Distributed Ingestion**: We use distributed servers at ingestor.landinganalytics.com to receive and process analytics events
+- **Traffic Filtering**: Non-human traffic (bots, crawlers, automated requests) is automatically filtered out at the ingestion layer
+- **Data Quality**: This filtering ensures that only legitimate user interactions are processed and displayed in your analytics
+- **Network Requirements**: Your website must have internet connectivity to our ingestion servers to send analytics data
+
+**Important**: Ensure your server/firewall allows outbound connections to ingestor.landinganalytics.com so we can receive the different events from your landing page.
+
+### Core Tracking Capabilities
+
+- **Page Views**: Automatic tracking of page visits and navigation
+- **User Sessions**: Session management and user journey tracking
+- **Event Tracking**: Custom event tracking for specific user actions
+- **Section Tracking**: Visibility and engagement tracking for page sections, visitor frequency analysis
+- **A/B Testing**: Variant assignment and conversion tracking
+- **Traffic Event Flags**: Mark and correlate traffic changes with business events
+- **Saturation Analysis**: Track impression frequency and avoid ad fatigue
+- **Performance Metrics**: Load times, scroll depth, and interaction patterns
+
+## Installation Guide by Framework
+
+### 1. HTML/Static Websites
+
+**Basic Installation:**
+
+```html
+<a title='Web Analytics For Your Landing Page' href='https://docs.landinganalytics.com/en/docs/legal/privacy-policy'> <img src='https://29vttzhyyw.ufs.sh/f/s54LtHZ2i7LYy6qTZEOuQ5i3ZfR6nrPj1lAwzL9qhT4xycpO' alt='Landing' /> </a>
+<script>window.LANDING_ANALYTICS_PUBLIC_TOKEN = '${user_account_token}';</script>
+<script>window.LANDING_ANALYTICS_SITE_ID = '${route.params.project_id}';</script>
+<script>window.LANDING_ANALYTICS_DNT = '${domainSettings.collectDNT}';</script>
+<script src='https://unpkg.com/@landinganalytics-lib/tracker' async></script>
+```
+
+**Important: Section Tracking Setup**
+
+To start tracking specific sections of your landing page, wrap each section you want to monitor in `<section name="SECTION_NAME"></section>` tags.
+
+**Example:**
+
+```html
+<section name="hero">
+    <h1>Your Hero Content</h1>
+</section>
+
+<section name="features">
+    <h2>Product Features</h2>
+</section>
+
+<section name="pricing">
+    <h2>Pricing Plans</h2>
+</section>
+```
+
+This setup enables Landing Analytics to track time spent on each section, visitor frequency patterns, and section engagement metrics for comprehensive landing page optimization.
+
+**A/B Testing Setup:**
+
+```html
+<script>
+  window.LANDING_VARIANTS = [
+    { name: 'ab', path: '/path#ab' },
+    { name: 'ba', path: '/path#ba' },
+  ]
+</script>
+```
+
+### 2. Vue.js (Composition API)
+
+**Main Component Setup:**
+
+```javascript
+import { onMounted } from 'vue'
+
+export default {
+  setup() {
+    onMounted(() => {
+      // Set the site ID and Public Token
+      window.LANDING_ANALYTICS_SITE_ID = '${route.params.project_id}'
+      window.LANDING_ANALYTICS_PUBLIC_TOKEN = '${user_account_token}'
+      window.LANDING_ANALYTICS_DNT = '${domainSettings.collectDNT}'
+
+      // Create and append the script element
+      const script = document.createElement('script')
+      script.src = 'https://unpkg.com/@landinganalytics-lib/tracker'
+      script.async = true
+      document.head.appendChild(script)
+
+      console.log('Tracking script loaded')
+    })
+  },
+}
+```
+
+**A/B Testing with Vue:**
+
+```javascript
+onMounted(() => {
+  // Set up A/B testing variants
+  window.LANDING_VARIANTS = [
+    { name: 'ab', path: '/path#ab' },
+    { name: 'ba', path: '/path#ba' },
+  ]
+
+  // Rest of the installation code...
+})
+```
+
+### 3. Next.js
+
+**Analytics Component:**
+
+```javascript
+'use client'
+
+import { useEffect } from 'react'
+
+export default function LandingAnalytics() {
+  useEffect(() => {
+    // Set up analytics configuration
+    window.LANDING_ANALYTICS_PUBLIC_TOKEN = process.env.NEXT_PUBLIC_ANALYTICS_PUBLIC_TOKEN
+    window.LANDING_ANALYTICS_SITE_ID = process.env.NEXT_PUBLIC_ANALYTICS_SITE_ID
+
+    // Load the tracking script
+    const script = document.createElement('script')
+    script.src = 'https://unpkg.com/@landinganalytics-lib/tracker'
+    script.async = true
+    document.head.appendChild(script)
+  }, [])
+
+  return null
+}
+```
+
+**Environment Variables (.env.local):**
+
+```bash
+NEXT_PUBLIC_ANALYTICS_PUBLIC_TOKEN=your_account_public_token_here
+NEXT_PUBLIC_ANALYTICS_SITE_ID=your_site_id_here
+```
+
+**Layout Integration:**
+
+```javascript
+import LandingAnalytics from '@/components/LandingAnalytics'
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <body>
+        <LandingAnalytics />
+        {children}
+      </body>
+    </html>
+  )
+}
+```
+
+### 4. WordPress
+
+**Gutenberg HTML Block:**
+
+```html
+<script>
+  // Initialize Landing Analytics
+  window.LANDING_ANALYTICS_PUBLIC_TOKEN = '${user_account_token}'
+  window.LANDING_ANALYTICS_SITE_ID = '${route.params.project_id}'
+  window.LANDING_ANALYTICS_DNT = '${domainSettings.collectDNT}'
+</script>
+<script async src="https://unpkg.com/@landinganalytics-lib/tracker"></script>
+```
+
+**Theme Integration (header.php):**
+
+```php
+<?php
+// Check if we're not in the admin area
+if (!is_admin()) :
+?>
+<script>
+  window.LANDING_ANALYTICS_PUBLIC_TOKEN = '${user_account_token}';
+  window.LANDING_ANALYTICS_SITE_ID = '${route.params.project_id}';
+  window.LANDING_ANALYTICS_DNT = '${domainSettings.collectDNT}';
+</script>
+<script async src="https://unpkg.com/@landinganalytics-lib/tracker"></script>
+<?php endif; ?>
+```
+
+### 5. Other Frameworks
+
+**React (Create React App):**
+
+```javascript
+import { useEffect } from 'react'
+
+function App() {
+  useEffect(() => {
+    window.LANDING_ANALYTICS_PUBLIC_TOKEN = process.env.REACT_APP_ANALYTICS_PUBLIC_TOKEN
+    window.LANDING_ANALYTICS_SITE_ID = process.env.REACT_APP_ANALYTICS_SITE_ID
+
+    const script = document.createElement('script')
+    script.src = 'https://unpkg.com/@landinganalytics-lib/tracker'
+    script.async = true
+    document.head.appendChild(script)
+  }, [])
+
+  return <div>Your app content</div>
+}
+```
+
+
+
+### 6. Svelte
+
+**Main Component Setup:**
+
+```javascript
+// In your Svelte component
+import { onMount } from 'svelte'
+
+let currentVariant = null
+
+onMount(() => {
+  // Set the site ID and Public Token
+  window.LANDING_ANALYTICS_SITE_ID = '${route.params.project_id}'
+  window.LANDING_ANALYTICS_PUBLIC_TOKEN = '${user_account_token}'
+  window.LANDING_ANALYTICS_DNT = '${domainSettings.collectDNT}'
+  window.LANDING_VARIANTS = [
+    { name: 'control', path: '' }, 
+    { name: 'variant-a', path: '' }
+  ]
+  
+  // Create and append the script element
+  const script = document.createElement('script')
+  script.src = 'https://unpkg.com/@landinganalytics-lib/tracker' // Using the npm package
+  script.async = true
+  
+  // Wait for script to load, then get variant
+  script.onload = async () => {
+    setTimeout(async () => {
+      if (window.landing && window.landing.getVariant) {
+        try {
+          currentVariant = await window.landing.getVariant()
+          console.log('Variant assigned:', currentVariant)
+        } catch (error) {
+          console.error('Failed to get variant:', error)
+        }
+      }
+    }, 1000)
+  }
+  
+  document.head.appendChild(script)
+})
+```
+
+**Svelte Stores:**
+
+```javascript
+// stores/analytics.js
+import { writable } from 'svelte/store'
+
+export const currentVariant = writable(null)
+
+export const loadTrackingScript = () => {
+  // Set configuration
+  window.LANDING_ANALYTICS_SITE_ID = '${route.params.project_id}'
+  window.LANDING_ANALYTICS_PUBLIC_TOKEN = '${user_account_token}'
+  window.LANDING_ANALYTICS_DNT = '${domainSettings.collectDNT}'
+  window.LANDING_VARIANTS = [
+    { name: 'control', path: '' }, 
+    { name: 'variant-a', path: '' }
+  ]
+  
+  const script = document.createElement('script')
+  script.src = 'https://unpkg.com/@landinganalytics-lib/tracker'
+  script.async = true
+  
+  script.onload = async () => {
+    setTimeout(async () => {
+      if (window.landing && window.landing.getVariant) {
+        try {
+          const variant = await window.landing.getVariant()
+          currentVariant.set(variant)
+        } catch (error) {
+          console.error('Failed to get variant:', error)
+        }
+      }
+    }, 1000)
+  }
+  
+  document.head.appendChild(script)
+}
+```
+
+**Svelte Actions:**
+
+```javascript
+// Track custom events
+function handleButtonClick() {
+  if (window.trackEvent) {
+    window.trackEvent('button_clicked', {
+      button_id: 'cta-button',
+      page: 'homepage'
+    })
+  }
+}
+
+// Use in Svelte actions
+const trackClick = (node, params) => {
+  const handleClick = () => {
+    if (window.trackEvent) {
+      window.trackEvent('element_clicked', params)
+    }
+  }
+  node.addEventListener('click', handleClick)
+  
+  return {
+    destroy() {
+      node.removeEventListener('click', handleClick)
+    }
+  }
+}
+
+// Form submission tracking
+function handleFormSubmit(formData) {
+  if (window.trackEvent) {
+    window.trackEvent('form_submission', {
+      formType: 'contact',
+      formData: { ...formData, message: 'Message content hidden for privacy' }
+    })
+  }
+}
+```
+
+**SvelteKit Integration:**
+
+```javascript
+import { onMount } from 'svelte'
+import { browser } from '$app/environment'
+import { PUBLIC_ANALYTICS_SITE_ID, PUBLIC_ANALYTICS_PUBLIC_TOKEN } from '$env/static/public'
+
+onMount(() => {
+  if (browser) {
+    window.LANDING_ANALYTICS_SITE_ID = PUBLIC_ANALYTICS_SITE_ID
+    window.LANDING_ANALYTICS_PUBLIC_TOKEN = PUBLIC_ANALYTICS_PUBLIC_TOKEN
+    window.LANDING_VARIANTS = [
+      { name: 'control', path: '' },
+      { name: 'variant-a', path: '' }
+    ]
+
+    const script = document.createElement('script')
+    script.src = 'https://unpkg.com/@landinganalytics-lib/tracker'
+    script.async = true
+
+    script.onload = async () => {
+      setTimeout(async () => {
+        if (window.landing && window.landing.getVariant) {
+          try {
+            const variant = await window.landing.getVariant()
+            console.log('Variant assigned:', variant)
+          } catch (error) {
+            console.error('Failed to get variant:', error)
+          }
+        }
+      }, 1000)
+    }
+
+    document.head.appendChild(script)
+  }
+})
+```
+
+**Configuration:**
+
+```bash
+PUBLIC_ANALYTICS_SITE_ID=your-site-id-here
+PUBLIC_ANALYTICS_PUBLIC_TOKEN=your-account-public-token-here
+```
+
+**A/B Testing with Svelte:**
+
+```javascript
+import { writable } from 'svelte/store'
+
+export const currentVariant = writable(null)
+
+export const getVariant = async () => {
+  if (window.landing && window.landing.getVariant) {
+    try {
+      const variant = await window.landing.getVariant()
+      currentVariant.set(variant)
+      return variant
+    } catch (error) {
+      console.error('Failed to get variant:', error)
+      return null
+    }
+  }
+  return null
+}
+
+function trackExperimentView() {
+  if (window.trackEvent) {
+    window.trackEvent('experiment_viewed', {
+      experiment_name: 'button-color-test',
+      variant: currentVariant
+    })
+  }
+}
+```
+
+### 7. Nuxt.js
+
+**Basic Setup:**
+
+```javascript
+// In your component or page
+import { ref, onMounted } from 'vue'
+
+const currentVariant = ref(null)
+
+onMounted(() => {
+  // Set the site ID and Public Token
+  window.LANDING_ANALYTICS_SITE_ID = '${route.params.project_id}'
+  window.LANDING_ANALYTICS_PUBLIC_TOKEN = '${user_account_token}'
+  window.LANDING_ANALYTICS_DNT = '${domainSettings.collectDNT}'
+  window.LANDING_VARIANTS = [
+    { name: 'control', path: '' }, 
+    { name: 'variant-a', path: '' }
+  ]
+  
+  // Create and append the script element
+  const script = document.createElement('script')
+  script.src = 'https://unpkg.com/@landinganalytics-lib/tracker' // Using the npm package
+  script.async = true
+  
+  // Wait for script to load, then get variant
+  script.onload = async () => {
+    setTimeout(async () => {
+      if (window.landing && window.landing.getVariant) {
+        try {
+          currentVariant.value = await window.landing.getVariant()
+        } catch (error) {
+          console.error('Failed to get variant:', error)
+        }
+      }
+    }, 1000)
+  }
+  
+  document.head.appendChild(script)
+})
+```
+
+**Using Plugins:**
+
+```javascript
+// plugins/analytics.client.ts
+export default defineNuxtPlugin(() => {
+  const script = document.createElement('script')
+  script.src = 'https://unpkg.com/@landinganalytics-lib/tracker'
+  script.async = true
+  
+  // Set configuration
+  window.LANDING_ANALYTICS_SITE_ID = useRuntimeConfig().public.analyticsSiteId
+  window.LANDING_ANALYTICS_PUBLIC_TOKEN = useRuntimeConfig().public.publicToken
+  
+  document.head.appendChild(script)
+})
+```
+
+**Tracking Events:**
+
+```javascript
+// components/MyComponent.vue
+const handleSubmit = () => {
+  // Track the form submission event
+  if (window.trackEvent) {
+    window.trackEvent('form_submission', {
+      formType: 'contact',
+      formData: { name: form.value.name, email: form.value.email }
+    })
+  }
+}
+
+// Track button clicks
+const handleButtonClick = () => {
+  if (window.trackEvent) {
+    window.trackEvent('button_clicked', {
+      buttonId: 'cta-primary',
+      page: '/home'
+    })
+  }
+}
+```
+
+**Composables:**
+
+```javascript
+// composables/useAnalytics.js
+export const useAnalytics = () => {
+  const currentVariant = ref(null)
+  
+  const loadTrackingScript = () => {
+    // Set the site ID and Public Token
+    window.LANDING_ANALYTICS_SITE_ID = '${route.params.project_id}'
+    window.LANDING_ANALYTICS_PUBLIC_TOKEN = '${user_account_token}'
+    window.LANDING_ANALYTICS_DNT = '${domainSettings.collectDNT}'
+    window.LANDING_VARIANTS = [
+      { name: 'control', path: '' }, 
+      { name: 'variant-a', path: '' }
+    ]
+    
+    // Create and append the script element
+      const script = document.createElement('script')
+  script.src = 'https://unpkg.com/@landinganalytics-lib/tracker'
+  script.async = true
+  
+  // Wait for script to load, then get variant
+  script.onload = async () => {
+      // Wait a bit for the tracker to initialize
+      setTimeout(async () => {
+        if (window.landing && window.landing.getVariant) {
+          try {
+            currentVariant.value = await window.landing.getVariant()
+            console.log('Variant assigned:', currentVariant.value)
+          } catch (error) {
+            console.error('Failed to get variant:', error)
+          }
+        }
+      }, 1000)
+    }
+    
+    document.head.appendChild(script)
+  }
+  
+  const trackEvent = (eventName, properties) => {
+    if (window.trackEvent) {
+      window.trackEvent(eventName, properties)
+    }
+  }
+  
+  const getVariant = () => currentVariant.value
+  
+  return {
+    currentVariant,
+    loadTrackingScript,
+    trackEvent,
+    getVariant
+  }
+}
+```
+
+**A/B Testing with Nuxt:**
+
+```javascript
+// In your component
+import { ref, onMounted } from 'vue'
+
+const currentVariant = ref(null)
+
+onMounted(async () => {
+  // Wait for the tracker to initialize
+  setTimeout(async () => {
+    if (window.landing && window.landing.getVariant) {
+      try {
+        currentVariant.value = await window.landing.getVariant()
+        console.log('Variant assigned:', currentVariant.value)
+      } catch (error) {
+        console.error('Failed to get variant:', error)
+      }
+    }
+  }, 1000)
+})
+
+// Use the variant in your template
+const getButtonText = () => {
+  return currentVariant.value === 'variant-a' ? 'Try Now' : 'Get Started'
+}
+
+const getButtonColor = () => {
+  return currentVariant.value === 'variant-a' ? 'bg-blue-500' : 'bg-green-500'
+}
+```
+
+**Environment Variables:**
+
+```bash
+NUXT_PUBLIC_ANALYTICS_SITE_ID=your_site_id_here
+NUXT_PUBLIC_ANALYTICS_PUBLIC_TOKEN=your_account_public_token_here
+```
+
+
+### 8. Framer
+
+**Basic Setup:**
+
+```html
+<a title='Web Analytics For Your Landing Page' href='https://docs.landinganalytics.com/en/docs/legal/privacy-policy'> <img src='https://29vttzhyyw.ufs.sh/f/s54LtHZ2i7LYy6qTZEOuQ5i3ZfR6nrPj1lAwzL9qhT4xycpO' alt='Landing' /> </a>
+<script>window.LANDING_ANALYTICS_PUBLIC_TOKEN = '${user_account_token}';</script>
+<script>window.LANDING_ANALYTICS_SITE_ID = '${route.params.project_id}';</script>
+<script>window.LANDING_ANALYTICS_DNT = '${domainSettings.collectDNT}';</script>
+<script type='module' src='https://unpkg.com/@landinganalytics-lib/tracker-framer' async></script>
+```
+
+**Important Notes:**
+
+- **Different Package**: Framer uses `@landinganalytics-lib/tracker-framer` instead of the standard tracker
+- **A/B Testing Not Available**: Framer integration currently does not support A/B testing functionality
+- **Single Script Tag**: You can only set up one script tag per embed component in Framer
+- **Framer Flag**: Must set `window.LANDING_ANALYTICS_USE_FRAMER = true` for proper integration
+
+**Framer Embed Component Setup:**
+
+1. Go to the search components section in Framer
+2. Find and select the "Embed" component
+3. Insert the component into your page
+4. Locate the embed section in the right bottom column of the component properties
+5. Select "HTML" as the embed type
+6. Copy and paste the HTML code above
+
+**Security Best Practices:**
+
+- Disable CORS to ensure proper endpoint communication
+- Consider implementing Cloudflare Turnstile or Google reCAPTCHA to prevent malicious traffic
+
+
+## A/B Testing Implementation
+
+### How A/B Testing Works
+
+Landing Analytics provides a sophisticated A/B testing platform that allows you to:
+
+1. **Create Experiments**: Set up tests with multiple variants
+2. **Traffic Allocation**: Control what percentage of users see each variant
+3. **User Targeting**: Segment users based on demographics, behavior, or custom attributes
+4. **Conversion Tracking**: Measure performance of different variants
+5. **Statistical Analysis**: Determine statistical significance of results
+
+### Core Logic & Value
+
+The fundamental value of our A/B testing is that **users can retrieve and display different landing page content to different visitors**. This allows you to:
+
+- Test different headlines, CTAs, layouts, or entire page designs
+- Serve personalized experiences based on user segments
+- Optimize conversion rates through data-driven experimentation
+
+**Variant Assignment Logic**: We use a sophisticated algorithm that includes the current timestamp as one component for variant assignment. This means:
+
+- A single user may experience different variants on different visits
+- Variant assignment is consistent within a session but may vary across sessions
+- This approach ensures fair distribution and prevents bias in testing
+
+### A/B Testing Implementation Steps
+
+**Step 1: Configure Your Site and Test**
+First, set up your site ID, Public Token, and define your A/B test variants. This tells the tracker which variants to test.
+
+**Step 1a: Define Variants**
+
+```javascript
+window.LANDING_VARIANTS = [
+  { name: 'variant_a', path: '' },
+  { name: 'variant_b', path: '' },
+]
+```
+
+**Step 1b: Set Site ID**
+
+```javascript
+window.LANDING_ANALYTICS_SITE_ID = '${route.params.project_id}'
+```
+
+**Step 1c: Set Public Token**
+
+```javascript
+window.LANDING_ANALYTICS_PUBLIC_TOKEN = '${user_account_token}'
+window.LANDING_ANALYTICS_DNT = '${domainSettings.collectDNT}'
+```
+
+**Step 2: Include the Tracking Script**
+Add the analytics script to the top of your page. This script will automatically assign visitors to variants and track their behavior.
+
+```html
+<script src='https://unpkg.com/@landinganalytics-lib/tracker' async></script>
+```
+
+**Step 3: Get Content Variants**
+Each visitor is randomly assigned to either variant A or B. You can dynamically retrieve the assigned variant as shown below. This allows you to display different landing pages to different visitors. The assignment is based on factors like the current timestamp, so a single visitor may see different variants on different visits.
+
+```javascript
+const variant = await window.landing.getVariant()
+```
+
+**Step 4: Important - Keep It Simple**
+⚠️ **Important: Keep It Simple**
+We highly recommend using only 2 alternatives at a time for the best results. While we support more variants, the scenario table only displays the top 2 results, so keeping it to 2 ensures optimal tracking and analysis.
+
+**Step 5: Reset When Changing Variants**
+To reset a scenario, click the cog button and then the red "Reset Scenario" button. We will calculate the winner between alternatives and display the result in the scenario table at the bottom of the page. Always reset your scenario every time you want to change any of the alternatives to ensure clean data and accurate comparisons between your variants.
+
+### A/B Testing Best Practices
+
+1. **Test One Hypothesis at a Time**: Focus on single variables for clear results
+2. **Run Tests for Statistical Significance**: Ensure adequate sample sizes
+3. **Avoid Overlapping Tests**: Don't test the same elements simultaneously
+4. **Document Hypotheses**: Record your assumptions and expected outcomes
+5. **Consider External Factors**: Account for seasonal patterns and market events
+6. **Monitor Performance**: Track both primary and secondary metrics
+7. **Use Only 2 Variants**: Keep tests simple for optimal tracking and analysis
+8. **Reset Scenarios**: Always reset when changing variants for clean data
+
+## Traffic Event Flags
+
+### Overview
+
+Traffic Event Flags allow you to visually mark significant events directly on your traffic graphs. Click on any point in your traffic data to flag events like marketing campaigns, website changes, or external factors that you believe influenced your website's performance.
+
+### What Can You Flag?
+
+- **Marketing Events**: Campaign launches, email blasts, social media posts, influencer partnerships
+- **Technical Changes**: Website updates, new features, performance optimizations, A/B tests
+- **External Factors**: Industry news, competitor changes, seasonal trends, world events
+- **Content Updates**: New blog posts, product launches, pricing changes
+
+### How to Use Event Flags
+
+Adding event flags to your traffic graphs is simple:
+
+1. Navigate to your traffic analytics dashboard
+2. Click on any point in your traffic graph
+3. Select "Add Event Flag" from the context menu
+4. Fill in event details like name, description, date, and type
+5. Save your flag
+
+### How Flags Help with Analysis
+
+Flags provide context for traffic changes, helping you:
+
+- View all flags for specific time periods
+- Filter flags by event type (marketing, technical, external)
+- Compare traffic before and after flagged events
+- Track the correlation between events and traffic changes
+- Export flag data for reporting and analysis
+
+### Best Practices
+
+Make the most of your event flags with these tips:
+
+- Flag events as they happen for accurate timing
+- Use consistent naming conventions for easy searching
+- Include specific details about expected vs. actual impact
+- Review and update flags regularly
+- Share flags with your team for collaborative analysis
+
+## Section Tracking
+
+### Overview
+
+Section tracking gives you insights into how visitors engage with different parts of your website. See exactly how much time users spend on each section and understand visitor frequency patterns to optimize your saturation strategy.
+
+### Setup Requirements
+
+**Important: Section Tracking Setup**
+
+To start tracking specific sections of your landing page, wrap each section you want to monitor in `<section name="SECTION_NAME"></section>` tags.
+
+**Example:**
+
+```html
+<section name="hero">
+    <h1>Your Hero Content</h1>
+</section>
+
+<section name="features">
+    <h2>Product Features</h2>
+</section>
+
+<section name="pricing">
+    <h2>Pricing Plans</h2>
+</section>
+```
+
+This setup enables Landing Analytics to track time spent on each section, visitor frequency patterns, and section engagement metrics for comprehensive landing page optimization.
+
+### What Can You Track?
+
+Track time spent on each section, visitor frequency (how many times users return), scroll depth, and section engagement patterns.
+
+### How Does It Help with Saturation?
+
+Understanding how many times visitors reach your landing page (1st, 2nd, 3rd, 4th+ visits) helps you develop effective saturation-driven marketing strategies.
+
+### Is This Real-Time Data?
+
+Yes, you can see real-time section tracking data and visitor frequency metrics in your dashboard.
+
+### Section Metrics
+
+Track detailed metrics for each section of your website:
+
+- **Time on Section**: How long visitors spend on each section
+- **Section Visibility**: How many visitors actually see each section
+- **Scroll Depth**: How far down the page visitors scroll
+- **Engagement Rate**: Percentage of visitors who interact with each section
+- **Bounce Rate by Section**: Which sections cause visitors to leave
+
+### Visitor Frequency Analysis
+
+Understand how often visitors return to your landing page:
+
+- **First-time Visitors**: New users seeing your page for the first time
+- **Returning Visitors**: Users who have visited 2, 3, or 4+ times
+- **Frequency Distribution**: See the breakdown of 1st, 2nd, 3rd, 4th+ visits
+- **Engagement by Frequency**: How engagement changes with repeat visits
+- **Saturation Insights**: Identify when you're reaching maximum visitor potential
+
+### Saturation Strategy
+
+Use visitor frequency data to develop effective saturation-driven marketing:
+
+- Identify when you're reaching the same visitors repeatedly
+- Optimize ad spend by understanding visitor overlap
+- Develop retargeting strategies based on visit frequency
+- Measure the effectiveness of different marketing channels
+- Plan expansion to new audiences when saturation is reached
+
+### Dashboard Insights
+
+View your section tracking data in easy-to-understand visualizations:
+
+- Heat maps showing time spent on each section
+- Visitor frequency charts and distributions
+- Section engagement comparisons
+- Time-based trends and patterns
+- Exportable reports for team analysis
+
+### Best Practices
+
+Make the most of your section tracking data:
+
+- Focus on sections with high engagement for optimization
+- Use visitor frequency data to adjust marketing strategies
+- Monitor section performance trends over time
+- Combine section data with conversion tracking
+- Regularly review saturation metrics for growth planning
+
+## Ad Saturation: The Science Behind Optimal Conversion Rates
+
+### Understanding Conversion Stages and Saturation
+
+Before users make a purchase, they progress through multiple stages of awareness. Understanding these stages is crucial, but first it's essential to grasp the fundamental concepts of **saturation** and **half-life** - the psychological principles that govern effective advertising.
+
+**The Psychology of Purchase Decisions**
+
+Every purchase decision follows a psychological journey from initial awareness to final conversion. This journey isn't linear - it's influenced by memory retention, emotional impact, and the strategic timing of advertising exposure.
+
+Research shows that 95% of purchase decisions are made subconsciously, making the timing and frequency of ad exposure critical to success.
+
+### Half-Life in Advertising: The Memory Retention Factor
+
+Half-life refers to how long an advertisement remains in a user's memory. This concept is fundamental to understanding why some campaigns succeed while others fail, regardless of creative quality or budget size.
+
+**What is Half-Life?**
+
+Half-life represents the time it takes for an advertisement's impact to decay to 50% of its original effectiveness. The longer the half-life, the greater impact the ad has made on the user's mind and the longer it influences purchasing decisions.
+
+**High Half-Life Factors:**
+- Emotional storytelling
+- Visual impact and creativity
+- Personal relevance
+- Strong brand association
+
+**Low Half-Life Factors:**
+- Generic messaging
+- Poor visual quality
+- Lack of emotional connection
+- Weak brand positioning
+
+**Individual Factors Affecting Half-Life**
+
+Half-life isn't uniform across all users. These memories are influenced by various factors including user profile, psychology, age, gender, and personal preferences. Understanding these variables allows for more targeted and effective campaign strategies.
+
+**Demographic Factors:**
+- Age and life stage
+- Gender and cultural background
+- Income level and lifestyle
+- Geographic location
+
+**Psychological Factors:**
+- Personal interests and hobbies
+- Emotional state and mood
+- Attention span and focus
+- Previous brand experiences
+
+### The Impression Sweet Spot: Finding the Perfect Frequency
+
+Beyond half-life, we must consider impression frequency. For any specific ad campaign, users should be exposed to the content 2-3 times to create sufficient impact for conversion. This creates the optimal balance between awareness and annoyance.
+
+**The 2-3 Impression Rule**
+
+1. **First Impression**: Creates initial awareness and brand recognition
+2. **Second Impression**: Reinforces message and builds interest
+3. **Third Impression**: Triggers action and drives conversion
+
+**The Danger of Over-Saturation**
+
+Showing users the same campaign more than 3 times leads to 'saturation' - the point where ads become annoying and actually decrease purchase intent, creating disgust instead of desire.
+
+**Negative Effects of Over-Saturation:**
+- Decreased brand favorability
+- Ad fatigue and banner blindness
+- Negative emotional associations
+- Reduced purchase intent
+
+**Signs of Saturation:**
+- Declining click-through rates
+- Increasing bounce rates
+- Negative social media mentions
+- Customer complaints about frequency
+
+### Optimal Timing: When to Hit the Sweet Spot
+
+The ideal frequency between impressions varies by industry, with an average of 1-2 weeks between exposures yielding the best results. Understanding your specific industry's timing requirements is crucial for campaign success.
+
+**Industry-Specific Timing:**
+- **E-commerce**: 3-5 days between impressions
+- **B2B Services**: 1-2 weeks between impressions
+- **Luxury Products**: 2-3 weeks between impressions
+- **SaaS Products**: 1-2 weeks between impressions
+
+**Campaign Lifecycle Factors:**
+- **Seasonal Campaigns**: Shorter intervals during peak periods
+- **Product Launches**: Higher frequency in first 2 weeks
+- **Brand Awareness**: Longer intervals to avoid fatigue
+- **Conversion Campaigns**: Optimal 2-3 impression sequence
+
+**Timing Optimization Best Practices:**
+- **Monitor Performance**: Track engagement metrics to identify optimal timing windows
+- **Test Intervals**: A/B test different timing strategies to find what works best
+- **Segment Audiences**: Adjust timing based on user behavior and preferences
+
+### Implementation with Landing Analytics
+
+You can use Landing Analytics to track, experiment with, and combine different ad campaigns effectively. This systematic approach ensures you hit the impression sweet spot while avoiding saturation.
+
+**The Three-Campaign Strategy**
+
+1. **First Campaign: Brand Awareness**
+   - Measure unique customers (single impression visitors) to build brand awareness
+   - Focus on broad reach and memorable messaging that creates strong initial impact
+   - **Goals**: Maximum reach, brand recognition, initial interest
+   - **Metrics**: Unique visitors, brand recall, social sharing
+
+2. **Second Campaign: Engagement Focus**
+   - Scale to an engagement-focused campaign to secure the crucial second impression
+   - This campaign should build on the first, providing more detailed information and stronger calls-to-action
+   - **Goals**: Deep engagement, information sharing, consideration
+   - **Metrics**: Time on site, page views, form interactions
+
+3. **Third Campaign: Conversion Focus**
+   - Collect data and UTM parameters to create a targeted final campaign for conversion
+   - This campaign should be highly personalized and focused on driving specific actions
+   - **Goals**: Direct conversion, purchase completion, lead generation
+   - **Metrics**: Conversion rate, revenue, lead quality
+
+**When to Pivot: Recognizing Campaign Fatigue**
+
+If results are unsatisfactory after this sequence, pivot your campaign focus with entirely new creative assets. Don't fall into the trap of trying to fix a saturated campaign with minor tweaks.
+
+**Signs You Need to Pivot:**
+- Declining performance across all metrics
+- Negative customer feedback
+- Ad fatigue indicators
+- Competitive advantage loss
+
+**Pivot Strategies:**
+- Complete creative refresh
+- New messaging approach
+- Different channel mix
+- Target audience adjustment
+
+### Start Optimizing Your Ad Saturation Today
+
+**Ready to Master Ad Saturation and Conversion Psychology?**
+
+Join thousands of marketers who are already using Landing Analytics to optimize ad frequency, track campaign performance, and avoid saturation while maximizing conversion rates.
+
+**Free Forever Plan Includes:**
+- Advanced campaign tracking and analytics
+- Impression frequency monitoring
+- Saturation detection and alerts
+- A/B testing for optimal timing
+- Multi-campaign performance analysis
+- Up to 10,000 monthly page views
+
+**Next Steps**
+
+Once you've mastered ad saturation optimization, explore these advanced capabilities:
+
+- **Predictive Saturation Modeling**: Use machine learning to predict when campaigns will reach saturation before it happens
+- **Dynamic Frequency Capping**: Automatically adjust ad frequency based on user behavior and engagement patterns
+- **Cross-Channel Saturation Analysis**: Understand how saturation in one channel affects performance in others
+- **Advanced Audience Segmentation**: Create micro-segments with different saturation thresholds and optimal timing
+- **Creative Fatigue Detection**: Identify when creative assets need refreshing before performance declines
+
+For implementation guidance and advanced features, check out our comprehensive documentation in the sidebar.
+
+## Why Use Landing Analytics?
+
+### 1. Privacy-First Approach
+
+- **No Personal Data Collection**: Focuses on aggregate analytics, not individual tracking
+- **User Consent Management**: Tools for managing user privacy preferences
+- **Data Minimization**: Only collects necessary information for analytics
+
+### 2. Developer Experience
+
+- **Simple Integration**: Single script tag installation
+- **Framework Agnostic**: Works with any web framework or technology
+- **Lightweight**: Minimal performance impact on your website
+- **Customizable**: Flexible tracking and reporting options
+
+### 3. Advanced Analytics
+
+- **Real-time Data**: Live insights into user behavior
+- **Section Tracking**: Detailed engagement metrics for page sections
+- **A/B Testing**: Built-in experimentation platform
+- **Custom Events**: Track specific user actions and conversions
+
+### 4. Performance Benefits
+
+- **Fast Loading**: Optimized tracking script
+- **Async Loading**: Non-blocking script execution
+- **Minimal Overhead**: Designed for high-performance websites
+- **CDN Delivery**: Global content delivery network
+
+## Improving Your Funnel with Landing Analytics
+
+### 1. Understanding User Journey
+
+**Page Flow Analysis:**
+
+- Track which pages users visit and in what order
+- Identify drop-off points in your conversion funnel
+- Understand the most common user paths to conversion
+
+**Section Engagement:**
+
+- Measure time spent on different page sections
+- Identify which content resonates most with users
+- Optimize page layout based on engagement data
+
+### 2. Conversion Optimization
+
+**A/B Testing for Conversions:**
+
+- Test different CTA button designs and placements
+- Experiment with page layouts and content structure
+- Optimize form designs and checkout processes
+- Test pricing strategies and offer presentations
+
+**Conversion Funnel Analysis:**
+
+- Track conversion rates at each step of your funnel
+- Identify where users abandon the conversion process
+- Optimize each funnel stage based on data insights
+
+### 3. User Experience Optimization
+
+**Performance Monitoring:**
+
+- Track page load times and user experience metrics
+- Identify performance bottlenecks affecting conversions
+- Monitor mobile vs. desktop performance differences
+
+**Content Optimization:**
+
+- Analyze which content sections drive engagement
+- Optimize content placement and presentation
+- Test different content formats and styles
+
+### 4. Data-Driven Decision Making
+
+**Real-time Insights:**
+
+- Make immediate adjustments based on live data
+- Respond quickly to changes in user behavior
+- Optimize campaigns and content in real-time
+
+**Historical Analysis:**
+
+- Track trends and patterns over time
+- Identify seasonal variations in user behavior
+- Plan future optimizations based on historical data
+
+## Getting Started
+
+### 1. Obtain Public Token Credentials
+
+1. Go to the Landing Analytics projects dashboard
+2. Click on your profile picture in the top right corner
+3. Select "Tokens" to access your Public Token and site ID
+
+### 2. Choose Installation Method
+
+- **Quick Start**: Use the basic script tag installation for immediate setup
+- **Framework Integration**: Follow framework-specific guides for optimal integration
+- **Advanced Features**: Implement A/B testing, section tracking, traffic event flags, and saturation analysis as needed
+
+### 3. Configure Tracking
+
+- Set up your site ID and Public Token
+- Configure A/B testing variants if needed
+- Implement section tracking for key page sections
+- Set up traffic event flags for important business events
+- Configure saturation analysis for optimal ad frequency
+- Set up custom event tracking for important user actions
+
+### 4. Monitor and Optimize
+
+- Review analytics data regularly
+- Run A/B tests to optimize conversions
+- Use section tracking insights to improve page layouts
+- Monitor traffic event flags to correlate business events with performance
+- Apply saturation analysis to optimize ad campaigns and timing
+- Continuously iterate based on data insights
+
+## Security Best Practices
+
+### 1. Public Token Key Management
+
+- Store API keys in environment variables
+- Use secure methods for key storage and transmission
+
+### 2. CORS Configuration
+
+- Disable CORS to ensure proper endpoint communication
+- Configure your server to allow Landing Analytics requests
+- Implement proper security headers
+
+### 3. Network Connectivity
+
+- **Ingestion Server Access**: Ensure your server/firewall allows outbound connections to ingestor.landinganalytics.com
+- **Port Requirements**: Allow outbound HTTPS (port 443) connections to our ingestion servers
+- **Firewall Rules**: Configure firewall rules to permit analytics data transmission
+- **Load Balancer Configuration**: If using load balancers, ensure they don't block outbound connections
+
+### 4. Traffic Protection
+
+- Consider implementing Cloudflare Turnstile or Google reCAPTCHA
+- Monitor for suspicious traffic patterns
+- Implement rate limiting if necessary
+
+### 5. Privacy Compliance
+
+- Ensure proper user consent management
+- Provide clear privacy policies and opt-out options
+
+## Conclusion
+
+Landing Analytics provides developers with a powerful, privacy-focused analytics platform that can significantly improve website performance and conversion rates. By implementing proper tracking, A/B testing, section analysis, traffic event flags, and saturation analysis, you can gain deep insights into user behavior and optimize your conversion funnel effectively.
+
+The platform's simple integration, advanced features, and developer-friendly approach make it an excellent choice for teams looking to improve their analytics capabilities while maintaining user privacy and website performance.
+
+Start with the basic installation, gradually add advanced features like A/B testing, section tracking, traffic event flags, and saturation analysis, and use the insights to continuously optimize your website for better user experience and higher conversions. 

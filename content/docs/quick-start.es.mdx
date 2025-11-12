@@ -1,0 +1,146 @@
+---
+title: Guía de Inicio Rápido
+description: Comienza con Landing Analytics en minutos con esta guía básica de instalación
+---
+
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+import Link from 'fumadocs-core/link';
+
+## Comenzando
+
+Sigue estos pasos para configurar Landing Analytics en tu sitio web:
+
+<Steps>
+<Step>
+
+### Regístrate con una cuenta de Google
+
+Actualmente solo permitimos el registro con cuenta de Google por seguridad.
+
+Visita [Landing Analytics](https://landinganalytics.com) y haz clic en "Registrarse con Google" para crear tu cuenta.
+
+</Step>
+
+<Step>
+
+### Responde un breve cuestionario
+
+Completa un cuestionario corto para ayudarnos a entender tus necesidades de analíticas y personalizar tu experiencia.
+
+Esto nos ayuda a proporcionar mejores insights y recomendaciones para tu caso de uso específico.
+
+</Step>
+
+<Step>
+
+### Haz clic en tu "Primer Proyecto"
+
+Una vez que hayas iniciado sesión, verás tu dashboard. Haz clic en "Primer Proyecto" para comenzar con la configuración de tus analíticas.
+
+Esto te llevará al dashboard de tu proyecto donde puedes gestionar la configuración de tus analíticas.
+
+</Step>
+
+<Step>
+
+### Configuración Básica
+
+Agrega las siguientes etiquetas de script a tu archivo HTML, justo antes de la etiqueta de cierre del body:
+
+```html
+<a title='Web Analytics For Your Landing Page' href='https://docs.landinganalytics.com/en/docs/legal/privacy-policy'> <img src='https://29vttzhyyw.ufs.sh/f/s54LtHZ2i7LYy6qTZEOuQ5i3ZfR6nrPj1lAwzL9qhT4xycpO' alt='Landing' /> </a>
+<script>window.LANDING_ANALYTICS_PUBLIC_TOKEN = '${user_account_token}';</script>
+<script>window.LANDING_ANALYTICS_SITE_ID = '${route.params.project_id}';</script>
+<script>window.LANDING_ANALYTICS_DNT = '${domainSettings.collectDNT}';</script>
+<script src='https://unpkg.com/@landinganalytics-lib/tracker' async></script>
+```
+
+Reemplaza `YOUR_ACCOUNT_PUBLIC_TOKEN` y `YOUR_SITE_ID` con los valores de tu dashboard del proyecto.
+
+</Step>
+
+<Step>
+
+### Configuración de Seguimiento de Secciones
+
+Para comenzar a rastrear secciones específicas de tu página de destino, envuelve cada sección que quieras monitorear en etiquetas `<section name="SECTION_NAME"></section>`.
+
+**Ejemplo:**
+
+```html
+<section name="hero">
+    <h1>Tu Contenido Principal</h1>
+</section>
+
+<section name="features">
+    <h2>Características del Producto</h2>
+</section>
+
+<section name="pricing">
+    <h2>Planes de Precios</h2>
+</section>
+```
+
+Esto te permite rastrear el compromiso del usuario con diferentes partes de tu página de destino.
+
+</Step>
+</Steps>
+
+## Personalización y Configuración
+
+Puedes personalizar tu seguimiento de analíticas con opciones de configuración adicionales:
+
+### Configuración de Pruebas A/B
+```html
+<script>window.LANDING_VARIANTS = [
+  { name: 'control', path: '' },
+  { name: 'variante-a', path: '/test-a' },
+  { name: 'variante-b', path: '/test-b' }
+];</script>
+```
+
+### Configuración Específica de Plataforma
+```html
+<!-- Para sitios de Framer -->
+<script>window.LANDING_ANALYTICS_USE_FRAMER = true;</script>
+
+<!-- Atributo personalizado de sección -->
+<script>window.LANDING_ANALYTICS_FOCUS = 'data-section-id';</script>
+```
+
+### Gestión de Privacidad y Consentimiento
+```html
+<!-- Requerir consentimiento del usuario antes del seguimiento -->
+<script>window.LANDING_ANALYTICS_REQUIRE_CONSENT = true;</script>
+
+<!-- El usuario ha dado su consentimiento -->
+<script>window.LANDING_ANALYTICS_CONSENT = true;</script>
+```
+
+### Ajuste de Rendimiento
+```html
+<!-- Intervalo de reporte (por defecto: 10000ms) -->
+<script>window.LANDING_ANALYTICS_INTERIM_REPORTING_INTERVAL_MS = 15000;</script>
+
+<!-- Tiempo mínimo de visibilidad (por defecto: 1000ms) -->
+<script>window.LANDING_ANALYTICS_MIN_VISIBILITY_TIME_MS = 2000;</script>
+
+<!-- Umbral de visibilidad de sección (por defecto: 0.8) -->
+<script>window.LANDING_ANALYTICS_SECTION_VISIBILITY_THRESHOLD = 0.75;</script>
+
+<!-- Tiempo de espera de killswitch (por defecto: 300000ms) -->
+<script>window.LANDING_ANALYTICS_KILLSWITCH_TIME = 600000;</script>
+```
+
+## Obtener tu Clave de API
+
+Para funciones avanzadas y acceso a la API REST, aprende más sobre las claves de API <Link href="/es/api">aquí</Link>.
+
+## Mejores Prácticas
+
+- Deshabilita CORS para asegurar una comunicación adecuada con los endpoints
+- Considera usar Cloudflare Turnstile o Google reCAPTCHA para prevenir tráfico malicioso
+
+## Próximos Pasos
+
+Para instalaciones específicas de frameworks (Vue, Nuxt, Next.js, etc.), revisa nuestras guías de Integración de Frameworks en la barra lateral.

@@ -1,0 +1,113 @@
+---
+title: A/B Testing
+description: Run experiments and make data-driven decisions with Landing Analytics' A/B testing capabilities
+---
+
+## Overview
+
+A/B testing allows you to compare different versions of your website to determine which performs better. Landing Analytics provides powerful tools for creating, managing, and analyzing A/B tests.
+
+### Core Logic & Value
+
+The fundamental value of our A/B testing is that **users can retrieve and display different landing page content to different visitors**. This allows you to:
+
+- Test different headlines, CTAs, layouts, or entire page designs
+- Serve personalized experiences based on user segments
+- Optimize conversion rates through data-driven experimentation
+
+### Variant Assignment Logic
+
+We use a sophisticated algorithm that includes the current timestamp as one component for variant assignment. This means:
+
+- A single user may experience different variants on different visits
+- Variant assignment is consistent within a session but may vary across sessions
+- This approach ensures fair distribution and prevents bias in testing
+
+### FAQ
+
+**What can I test?**
+Test any aspect of your website including layouts, content, features, CTAs, and user flows.
+
+**How many variants should I use?**
+We highly recommend using only 2 alternatives at a time for the best results. While we support more variants, the scenario table only displays the top 2 results, so keeping it to 2 ensures optimal tracking and analysis.
+
+**How long should tests run?**
+Tests should run until statistical significance is achieved. Our analytics dashboard helps you determine the optimal duration.
+
+## Implementation Steps
+
+### Step 1: Configure Your Site and Test
+
+First, set up your site ID, Public Token, and define your A/B test variants. This tells the tracker which variants to test.
+
+#### Step 1a: Define Variants
+
+```javascript
+window.LANDING_VARIANTS = [
+  { name: 'variant_a', path: '' },
+  { name: 'variant_b', path: '' }
+];
+```
+
+#### Step 1b: Set Site ID
+
+```javascript
+window.LANDING_ANALYTICS_SITE_ID = '${route.params.project_id}';
+window.LANDING_ANALYTICS_DNT = '${domainSettings.collectDNT}';
+```
+
+#### Step 1c: Set Public Token
+
+```javascript
+window.LANDING_ANALYTICS_PUBLIC_TOKEN = '${user_account_token}';
+```
+
+### Step 2: Include the Tracking Script
+
+Add the analytics script to the top of your page. This script will automatically assign visitors to variants and track their behavior.
+
+```html
+<script src='https://unpkg.com/@landinganalytics-lib/tracker' async></script>
+```
+
+### Step 3: Get Content Variants
+
+Each visitor is randomly assigned to either variant A or B. You can dynamically retrieve the assigned variant as shown below. This allows you to display different landing pages to different visitors. The assignment is based on factors like the current timestamp, so a single visitor may see different variants on different visits.
+
+```javascript
+const variant = await window.landing.getVariant();
+```
+
+### Step 4: Important - Keep It Simple
+
+> **Important: Keep It Simple**
+> 
+> We highly recommend using only 2 alternatives at a time for the best results. While we support more variants, the scenario table only displays the top 2 results, so keeping it to 2 ensures optimal tracking and analysis.
+
+### Step 5: Reset When Changing Variants
+
+To reset a scenario, click the cog button and then the red "Reset Scenario" button. We will calculate the winner between alternatives and display the result in the scenario table at the bottom of the page. Always reset your scenario every time you want to change any of the alternatives to ensure clean data and accurate comparisons between your variants.
+
+## Analysis & Reporting
+
+Monitor and analyze your test results:
+
+- Real-time conversion tracking
+- Statistical significance calculations
+- Detailed segmentation analysis
+- Custom goal tracking
+- Export capabilities for further analysis
+- Scenario table displaying top 2 results
+
+## Best Practices
+
+Follow these guidelines for successful A/B testing:
+
+- Test one hypothesis at a time
+- Run tests for statistically significant durations
+- Avoid overlapping tests on the same elements
+- Document your test hypotheses and results
+- Consider seasonal factors and external events
+- **Use only 2 variants** for optimal tracking and analysis
+- **Always reset scenarios** when changing variants for clean data
+- Monitor the scenario table for real-time results

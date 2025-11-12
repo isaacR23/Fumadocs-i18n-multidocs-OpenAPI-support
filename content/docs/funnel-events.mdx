@@ -1,0 +1,440 @@
+---
+title: Event Tracker (Beta)
+description: Simple event tracking for specific user actions - track sign-ups, transactions, and cancellations
+---
+
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+import Link from 'fumadocs-core/link';
+
+## Overview
+
+The Landing Analytics Event Tracker is a new, free tracker available to all users.
+This enables the new 'Funnel' window that has graphics to track attribution beyond just the first impression.
+Now you can identify how long it takes a user to convert, where they start their journey, and what your app retention is.
+
+## Quick Setup
+
+<Steps>
+<Step>
+
+### 1. Configure Your Site
+
+Set up the required configuration variables:
+
+```html
+<script>
+window.LANDING_ANALYTICS_SITE_ID = 'your-site-id';
+window.LANDING_ANALYTICS_PUBLIC_TOKEN = 'your-site-token';
+window.LANDING_VARIANTS = [
+  { name: 'ab', path: '' }, 
+  { name: 'ba', path: '' }
+]; // Optional custom variant names
+</script>
+```
+
+</Step>
+
+<Step>
+
+### 2. Include the Event Tracker Script
+
+Add the Event Tracker script to your page:
+
+```html
+<script src="https://unpkg.com/@landinganalytics-lib/tracker-events" async></script>
+```
+
+</Step>
+
+<Step>
+
+### 3. Send Events
+
+Start tracking events using the simple API:
+
+```html
+<script>
+// Track user sign-ups
+window.landing('sign-up', { amount: 0, eventName: 'transaction' });
+
+// Track new transactions
+window.landing('new-transaction', { amount: 3000, eventName: 'transaction' });
+
+// Track customer cancellations
+window.landing('cancel-customer');
+</script>
+```
+
+</Step>
+</Steps>
+
+## Event Types
+
+### Sign-up Events
+Track when users create accounts or register for your service.
+
+**Required Parameters:**
+- `amount` (number): Transaction amount (default: 0)
+- `eventName` (string): Must be 'transaction'
+
+```html
+<script>
+// Basic sign-up tracking
+window.landing('sign-up', { 
+  amount: 0, 
+  eventName: 'transaction' 
+});
+
+// Sign-up with trial value
+window.landing('sign-up', { 
+  amount: 0, 
+  eventName: 'transaction' 
+});
+</script>
+```
+
+**When to use:** User registration, account creation, email sign-ups, free trial starts
+
+### Transaction Events
+Track when users make purchases or complete paid transactions.
+
+**Required Parameters:**
+- `amount` (number): Transaction amount
+- `eventName` (string): Must be 'transaction'
+
+```html
+<script>
+// Track a purchase
+window.landing('new-transaction', { 
+  amount: 99, 
+  eventName: 'transaction' 
+});
+
+// Track subscription upgrade
+window.landing('new-transaction', { 
+  amount: 299, 
+  eventName: 'transaction' 
+});
+</script>
+```
+
+**When to use:** Product purchases, subscription upgrades, service payments, one-time payments
+
+### Customer Cancellation Events
+Track when users cancel or churn from your service.
+
+**No parameters required**
+
+```html
+<script>
+// Track customer cancellation
+window.landing('cancel-customer');
+</script>
+```
+
+**When to use:** Subscription cancellations, account deletions, service terminations
+
+## Implementation Examples
+
+### Form Integration
+
+```html
+<!-- Sign-up form -->
+<form id="signup-form">
+  <input type="email" placeholder="Email" required>
+  <button type="submit">Sign Up</button>
+</form>
+
+<script>
+document.getElementById('signup-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  // Your sign-up logic here
+  // ... process registration ...
+  
+  // Track the sign-up event
+  window.landing('sign-up', { 
+    amount: 0, 
+    eventName: 'transaction' 
+  });
+  
+  // Redirect or show success message
+});
+</script>
+```
+
+### Checkout Integration
+
+```html
+<script>
+function completePurchase(amount) {
+  // Your payment processing logic
+  // ... process payment ...
+  
+  // Track the transaction
+  window.landing('new-transaction', { 
+    amount: amount, 
+    eventName: 'transaction' 
+  });
+  
+  // Redirect to success page
+}
+
+// Call when purchase is completed
+completePurchase(99.99);
+</script>
+```
+
+### Cancellation Integration
+
+```html
+<!-- Cancel subscription button -->
+<button id="cancel-subscription">Cancel Subscription</button>
+
+<script>
+document.getElementById('cancel-subscription').addEventListener('click', function() {
+  if (confirm('Are you sure you want to cancel?')) {
+    // Your cancellation logic
+    // ... process cancellation ...
+    
+    // Track the cancellation
+    window.landing('cancel-customer');
+    
+    // Show confirmation message
+  }
+});
+</script>
+```
+
+## Framework Integration
+
+### React/Next.js
+```jsx
+const SignUpForm = () => {
+  const handleSignUp = async (formData) => {
+    try {
+      // Process sign-up
+      await signUpUser(formData);
+      
+      // Track event
+      if (window.landing) {
+        window.landing('sign-up', { 
+          amount: 0, 
+          eventName: 'transaction' 
+        });
+      }
+    } catch (error) {
+      console.error('Sign-up failed:', error);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSignUp}>
+      {/* form fields */}
+    </form>
+  );
+};
+```
+
+### Vue.js
+```vue
+<template>
+  <form @submit="handleSignUp">
+    <input v-model="email" type="email" required>
+    <button type="submit">Sign Up</button>
+  </form>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      email: ''
+    }
+  },
+  methods: {
+    async handleSignUp() {
+      // Process sign-up
+      await this.signUpUser();
+      
+      // Track event
+      if (window.landing) {
+        window.landing('sign-up', { 
+          amount: 0, 
+          eventName: 'transaction' 
+        });
+      }
+    }
+  }
+}
+</script>
+```
+
+### WordPress
+```php
+// In your theme's functions.php or plugin
+function track_signup_event() {
+    ?>
+    <script>
+    // Track after successful user registration
+    if (window.landing) {
+        window.landing('sign-up', { 
+            amount: 0, 
+            eventName: 'transaction' 
+        });
+    }
+    </script>
+    <?php
+}
+
+// Hook into user registration
+add_action('user_register', 'track_signup_event');
+```
+
+## API Reference
+
+### `window.landing(eventType, eventData)`
+
+**Parameters:**
+- `eventType` (string): Event type - must be one of: `'sign-up'`, `'new-transaction'`, `'cancel-customer'`
+- `eventData` (object, optional): Event data object
+
+**Event Data Requirements:**
+
+| Event Type | Required Parameters | Optional Parameters |
+|------------|-------------------|-------------------|
+| `sign-up` | `amount` (number), `eventName` (string) | None |
+| `new-transaction` | `amount` (number), `eventName` (string) | None |
+| `cancel-customer` | None | None |
+
+**Examples:**
+```javascript
+// Valid calls
+window.landing('sign-up', { amount: 0, eventName: 'transaction' });
+window.landing('new-transaction', { amount: 99, eventName: 'transaction' });
+window.landing('cancel-customer');
+
+// Invalid calls (will log errors)
+window.landing('invalid-event'); // Unknown event type
+window.landing('sign-up', { amount: 'not-a-number' }); // Invalid amount type
+window.landing('cancel-customer', { extra: 'data' }); // No parameters allowed
+```
+
+## Configuration
+
+### Required Configuration
+```html
+<script>
+// Site identification
+window.LANDING_ANALYTICS_SITE_ID = 'your-site-id';
+window.LANDING_ANALYTICS_PUBLIC_TOKEN = 'your-site-token';
+</script>
+```
+
+### Optional Configuration
+```html
+<script>
+// A/B testing variants (optional)
+window.LANDING_VARIANTS = [
+  { name: 'control', path: '' },
+  { name: 'variant-a', path: '/test-a' },
+  { name: 'variant-b', path: '/test-b' }
+];
+
+// Do Not Track setting (optional)
+window.LANDING_ANALYTICS_DNT = true;
+</script>
+```
+
+## Error Handling
+
+The Event Tracker includes built-in validation and error handling:
+
+### Event Type Validation
+```javascript
+// This will log an error and not send the event
+window.landing('invalid-event-type');
+// Error: [Landing Analytics] Invalid event type: invalid-event-type. Allowed types: sign-up, new-transaction, cancel-customer
+```
+
+### Parameter Validation
+```javascript
+// This will log an error and not send the event
+window.landing('sign-up', { amount: 'not-a-number' });
+// Error: [Landing Analytics] Event type 'sign-up' only allows eventName: 'transaction'. Got: undefined
+```
+
+### Safe Implementation
+```javascript
+// Always check if the tracker is available
+if (window.landing) {
+  window.landing('sign-up', { amount: 0, eventName: 'transaction' });
+} else {
+  console.warn('Landing Analytics Event Tracker not loaded');
+}
+```
+
+## Best Practices
+
+### 1. Event Timing
+- Track events immediately after the action occurs
+- Don't wait for page loads or redirects
+- Use try-catch blocks to prevent tracking errors from breaking your app
+
+### 2. Data Quality
+- Always use the exact event types: `'sign-up'`, `'new-transaction'`, `'cancel-customer'`
+- Ensure `amount` is a number and `eventName` is `'transaction'`
+- Test your implementation thoroughly
+
+### 3. Error Handling
+```javascript
+try {
+  window.landing('sign-up', { amount: 0, eventName: 'transaction' });
+} catch (error) {
+  console.error('Event tracking failed:', error);
+  // Continue with your app logic
+}
+```
+
+### 4. Privacy Compliance
+- Only track events after user consent if required by law
+- Ensure your tracking aligns with GDPR and other privacy regulations
+- Be transparent about what data you're collecting
+
+## Troubleshooting
+
+### Common Issues
+
+**Events not being tracked:**
+- Check that the Event Tracker script is loaded
+- Verify your site ID and public token are correct
+- Ensure the event parameters match the required format
+
+**Missing event data:**
+- Check browser console for error messages
+- Verify the event type is one of the allowed types
+- Ensure parameters are properly formatted
+
+**A/B testing not working:**
+- Make sure you have variants configured
+- Verify the same site ID is used across all tracking
+- Check that events are being associated with the correct variant
+
+### Debug Mode
+```javascript
+// Check if tracker is loaded
+console.log('Tracker available:', !!window.landing);
+
+// Check current variant
+if (window.landing && window.landing.getVariant) {
+  window.landing.getVariant().then(variant => {
+    console.log('Current variant:', variant);
+  });
+}
+```
+
+## Next Steps
+
+- Learn about <Link href="/en/docs/section-tracking">Section Tracking</Link> for user engagement analytics
+- Explore <Link href="/en/docs/ab-testing">A/B Testing</Link> to optimize your conversion funnel
+- Check out <Link href="/en/api">API Documentation</Link> for advanced analytics features

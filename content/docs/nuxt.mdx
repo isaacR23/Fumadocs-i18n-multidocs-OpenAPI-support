@@ -1,0 +1,237 @@
+---
+title: Nuxt Integration
+description: Everything you need to know about integrating Landing Analytics with Nuxt using our tracker script
+---
+
+## Introduction
+
+Landing Analytics provides seamless integration with Nuxt applications through our lightweight tracker script. This guide will walk you through the setup process and basic usage.
+
+### FAQ
+
+**Is Landing Analytics compatible with Nuxt 3?**
+Yes, Landing Analytics fully supports both Nuxt 2 and Nuxt 3 applications through our tracker script.
+
+**Do I need to configure anything for SSR?**
+Our tracker script handles server-side rendering automatically, ensuring accurate tracking in both SSR and client-side navigation.
+
+## Basic Setup
+
+Add the Landing Analytics tracker script to your Nuxt application. You can do this in several ways:
+
+### Option 1: Using onMounted in a component (Recommended)
+
+```javascript
+// In your component or page
+import { ref, onMounted } from 'vue'
+
+const currentVariant = ref(null)
+
+onMounted(() => {
+  // Set the site ID and Public Token
+  window.LANDING_ANALYTICS_SITE_ID = '${route.params.project_id}'
+  window.LANDING_ANALYTICS_PUBLIC_TOKEN = '${user_account_token}'
+  window.LANDING_ANALYTICS_DNT = '${domainSettings.collectDNT}'
+  window.LANDING_VARIANTS = [
+    { name: 'control', path: '' }, 
+    { name: 'variant-a', path: '' }
+  ]
+  
+  // Create and append the script element
+  const script = document.createElement('script')
+  script.src = 'https://unpkg.com/@landinganalytics-lib/tracker' // Using the npm package
+  script.async = true
+  
+  // Wait for script to load, then get variant
+  script.onload = async () => {
+    setTimeout(async () => {
+      if (window.landing && window.landing.getVariant) {
+        try {
+          currentVariant.value = await window.landing.getVariant()
+        } catch (error) {
+          console.error('Failed to get variant:', error)
+        }
+      }
+    }, 1000)
+  }
+  
+  document.head.appendChild(script)
+})
+```
+
+### Option 2: Using plugins
+
+```javascript
+// plugins/analytics.client.ts
+export default defineNuxtPlugin(() => {
+  const script = document.createElement('script')
+  script.src = 'https://unpkg.com/@landinganalytics-lib/tracker'
+  script.async = true
+  
+  // Set configuration
+  window.LANDING_ANALYTICS_SITE_ID = '${route.params.project_id}'
+  window.LANDING_ANALYTICS_PUBLIC_TOKEN = '${user_account_token}'
+  window.LANDING_ANALYTICS_DNT = '${domainSettings.collectDNT}'
+  
+  document.head.appendChild(script)
+})
+```
+
+## Tracking Events
+
+Track custom events using the global trackEvent function after loading the tracker script:
+
+```javascript
+// components/MyComponent.vue
+const handleSubmit = () => {
+  // Track the form submission event
+  if (window.trackEvent) {
+    window.trackEvent('form_submission', {
+      formType: 'contact',
+      formData: { name: form.value.name, email: form.value.email }
+    })
+  }
+}
+
+// Track button clicks
+const handleButtonClick = () => {
+  if (window.trackEvent) {
+    window.trackEvent('button_clicked', {
+      buttonId: 'cta-primary',
+      page: '/home'
+    })
+  }
+}
+```
+
+## Composables
+
+Create a custom composable for easier analytics usage:
+
+```javascript
+// composables/useAnalytics.js
+export const useAnalytics = () => {
+  const currentVariant = ref(null)
+  
+  const loadTrackingScript = () => {
+  // Set the site ID and Public Token
+  window.LANDING_ANALYTICS_SITE_ID = '${route.params.project_id}'
+  window.LANDING_ANALYTICS_PUBLIC_TOKEN = '${user_account_token}'
+  window.LANDING_ANALYTICS_DNT = '${domainSettings.collectDNT}'
+    window.LANDING_VARIANTS = [
+      { name: 'control', path: '' }, 
+      { name: 'variant-a', path: '' }
+    ]
+    
+    // Create and append the script element
+    const script = document.createElement('script')
+    script.src = 'https://unpkg.com/@landinganalytics-lib/tracker' // Using the npm package
+    script.async = true
+    
+    // Wait for script to load, then get variant
+    script.onload = async () => {
+      // Wait a bit for the tracker to initialize
+      setTimeout(async () => {
+        if (window.landing && window.landing.getVariant) {
+          try {
+            currentVariant.value = await window.landing.getVariant()
+            console.log('Variant assigned:', currentVariant.value)
+          } catch (error) {
+            console.error('Failed to get variant:', error)
+          }
+        }
+      }, 1000)
+    }
+    
+    document.head.appendChild(script)
+  }
+  
+  const trackEvent = (eventName, properties) => {
+    if (window.trackEvent) {
+      window.trackEvent(eventName, properties)
+    }
+  }
+  
+  const getVariant = () => currentVariant.value
+  
+  return {
+    currentVariant,
+    loadTrackingScript,
+    trackEvent,
+    getVariant
+  }
+}
+```
+
+## A/B Testing
+
+Implement A/B testing using the tracker variant functionality:
+
+```javascript
+// In your component
+import { ref, onMounted } from 'vue'
+
+const currentVariant = ref(null)
+
+onMounted(async () => {
+  // Wait for the tracker to initialize
+  setTimeout(async () => {
+    if (window.landing && window.landing.getVariant) {
+      try {
+        currentVariant.value = await window.landing.getVariant()
+        console.log('Variant assigned:', currentVariant.value)
+      } catch (error) {
+        console.error('Failed to get variant:', error)
+      }
+    }
+  }, 1000)
+})
+
+// Use the variant in your template
+const getButtonText = () => {
+  return currentVariant.value === 'variant-a' ? 'Try Now' : 'Get Started'
+}
+
+const getButtonColor = () => {
+  return currentVariant.value === 'variant-a' ? 'bg-blue-500' : 'bg-green-500'
+}
+```
+
+## Security Best Practices
+
+- Always use environment variables for site IDs and sensitive information
+- Use the NUXT_PUBLIC_ prefix for client-side environment variables
+- Implement proper CORS configuration in your Nuxt server middleware
+- Consider using Nuxt Security module alongside Landing Analytics
+- Validate all tracking data on the server side when possible
+
+## Getting Your Site ID
+
+To obtain your site ID and Public Token:
+
+1. Log in to your Landing Analytics dashboard
+2. Navigate to the Projects section
+3. Select your project
+4. Go to Settings → Site Configuration
+5. Copy your site ID and Public Token
+
+Store these values in your `.env` file:
+
+```bash
+NUXT_PUBLIC_ANALYTICS_SITE_ID=your_site_id_here
+NUXT_PUBLIC_ANALYTICS_PUBLIC_TOKEN=your_account_public_token_here
+```
+
+Then use them in your component:
+
+```javascript
+// In your component
+const config = useRuntimeConfig()
+
+onMounted(() => {
+  window.LANDING_ANALYTICS_SITE_ID = '${route.params.project_id}'
+  window.LANDING_ANALYTICS_PUBLIC_TOKEN = '${user_account_token}'
+  window.LANDING_ANALYTICS_DNT = '${domainSettings.collectDNT}'
+  // ... rest of setup
+})
+```

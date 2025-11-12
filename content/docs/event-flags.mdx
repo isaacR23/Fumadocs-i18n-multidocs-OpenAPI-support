@@ -1,0 +1,96 @@
+---
+title: Manual Traffic Tracking Guide
+description: Learn how to manually flag content for precise traffic analysis and gain deeper insights into your landing page performance
+---
+
+## Why Manual Traffic Flagging Matters
+
+While automated tracking captures general metrics, manual traffic flagging gives you granular control over what content you want to analyze. This approach is essential for:
+
+- **Precise Campaign Tracking:** Flag specific marketing campaigns, product launches, or seasonal promotions
+- **Content Performance Analysis:** Identify which specific pieces of content drive the most engagement
+- **Event Correlation:** Connect traffic spikes to real-world events, social media posts, or external factors
+- **ROI Measurement:** Track the direct impact of specific marketing activities on your conversion rates
+
+Manual flagging transforms raw traffic data into actionable business intelligence, helping you make data-driven decisions about your marketing strategy.
+
+## Placing Flags on a Continuous Timeline
+
+Landing Analytics provides an intuitive timeline interface where you can place flags at any point in your traffic history:
+
+```javascript
+// Example: Flag a marketing campaign
+window.trackEvent('campaign_flag', {
+  campaign_name: 'Summer Sale 2024',
+  start_date: '2024-06-01',
+  end_date: '2024-06-30',
+  flag_type: 'marketing_campaign',
+  description: 'Major summer sale with 30% discount'
+});
+
+// Example: Flag a content update
+window.trackEvent('content_flag', {
+  content_id: 'hero-section-update',
+  flag_type: 'content_change',
+  description: 'Updated hero section with new CTA button',
+  timestamp: new Date().toISOString()
+});
+```
+
+Each flag creates a visual marker on your timeline, allowing you to:
+
+- Mark the start and end of specific campaigns or events
+- Annotate traffic patterns with contextual information
+- Create a searchable history of all your marketing activities
+- Compare performance before, during, and after flagged periods
+
+## Benefits of Dynamic User Interface
+
+Our dynamic interface makes manual traffic tracking effortless and insightful:
+
+**Real-Time Flagging**
+Place flags instantly as events happen, ensuring no important moment goes unrecorded. The interface updates in real-time, giving you immediate visual feedback.
+
+**Interactive Timeline**
+Zoom, scroll, and navigate through your traffic history with ease. Click on any flag to see detailed information and edit or delete as needed.
+
+**Smart Categorization**
+Organize flags by type, campaign, or custom categories. Use color coding and filters to quickly identify patterns and trends.
+
+**Collaborative Features**
+Share your timeline with team members, allowing everyone to contribute flags and insights. Perfect for marketing teams and agencies.
+
+## Getting Started with Manual Tracking
+
+Implementing manual traffic tracking is straightforward with Landing Analytics:
+
+1. **Set up your tracking script** - Add our lightweight tracker to your website
+2. **Configure your site ID** - Get your unique identifier from the dashboard
+3. **Start flagging events** - Use the trackEvent function to place flags
+4. **Analyze patterns** - View your timeline and identify correlations
+5. **Optimize campaigns** - Use insights to improve your marketing strategy
+
+## Start Tracking Today
+
+> **Ready to Transform Your Traffic Analysis?**
+> 
+> Join thousands of marketers who are already using manual traffic tracking to gain deeper insights into their landing page performance.
+> 
+> **🎯 Free Forever Plan Includes:**
+> - Unlimited manual traffic flags
+> - Interactive timeline interface
+> - Basic analytics and reporting
+> - Up to 10,000 monthly page views
+> - Email support
+> 
+> [Start Free Trial](/signup)
+> 
+> *No credit card required • Setup in under 5 minutes*
+
+## Next Steps
+
+Once you've mastered manual traffic tracking, explore these advanced features:
+
+- **Automated Flagging:** Set up rules to automatically flag certain traffic patterns
+- **Advanced Analytics:** Dive deeper with conversion funnels and user behavior analysis
+- **A/B Testing:** Run experiments and track results with built-in variant management

@@ -1,0 +1,247 @@
+[
+    {
+      "id": "/en/docs",
+      "title": "Introduction",
+      "content": "Welcome to Landing Analytics - The analytics platform built for founders",
+      "url": "/en/docs",
+      "description": "Welcome to Landing Analytics - The analytics platform built for founders"
+    },
+    {
+      "id": "/en/docs/overview",
+      "title": "Overview",
+      "content": "Learn about Landing Analytics' core concepts and how it can help your business",
+      "url": "/en/docs/overview",
+      "description": "Learn about Landing Analytics' core concepts and how it can help your business"
+    },
+    {
+      "id": "/en/docs/quick-start",
+      "title": "Quick Start Guide",
+      "content": "Get started with Landing Analytics in minutes with this basic installation guide",
+      "url": "/en/docs/quick-start",
+      "description": "Get started with Landing Analytics in minutes with this basic installation guide"
+    },
+    {
+      "id": "/en/docs/artificial-support",
+      "title": "llms-full.txt",
+      "content": "This file contains instructions you can copy paste into your agent of choice and start asking questions about how to manage and get out the most of Landing Analytics",
+      "url": "/en/docs/artificial-support",
+      "description": "This file contains instructions you can copy paste into your agent of choice and start asking questions about how to manage and get out the most of Landing Analytics"
+    },
+    {
+      "id": "/en/docs/html",
+      "title": "HTML Installation",
+      "content": "Add Landing Analytics to your HTML website with a simple script tag installation",
+      "url": "/en/docs/html",
+      "description": "Add Landing Analytics to your HTML website with a simple script tag installation"
+    },
+    {
+      "id": "/en/docs/vue",
+      "title": "Vue Installation",
+      "content": "Add Landing Analytics to your Vue application using the Composition API",
+      "url": "/en/docs/vue",
+      "description": "Add Landing Analytics to your Vue application using the Composition API"
+    },
+    {
+      "id": "/en/docs/nuxt",
+      "title": "Nuxt Integration",
+      "content": "Everything you need to know about integrating Landing Analytics with Nuxt using our tracker script",
+      "url": "/en/docs/nuxt",
+      "description": "Everything you need to know about integrating Landing Analytics with Nuxt using our tracker script"
+    },
+    {
+      "id": "/en/docs/next",
+      "title": "Next.js Installation",
+      "content": "Add Landing Analytics to your Next.js application with proper client-side initialization",
+      "url": "/en/docs/next",
+      "description": "Add Landing Analytics to your Next.js application with proper client-side initialization"
+    },
+    {
+      "id": "/en/docs/svelte",
+      "title": "Svelte Integration",
+      "content": "Learn how to integrate Landing Analytics with your Svelte and SvelteKit applications using our tracker script",
+      "url": "/en/docs/svelte",
+      "description": "Learn how to integrate Landing Analytics with your Svelte and SvelteKit applications using our tracker script"
+    },
+    {
+      "id": "/en/docs/wordpress",
+      "title": "WordPress Integration",
+      "content": "Learn how to integrate Landing Analytics with WordPress using Gutenberg blocks and theme customization",
+      "url": "/en/docs/wordpress",
+      "description": "Learn how to integrate Landing Analytics with WordPress using Gutenberg blocks and theme customization"
+    },
+    {
+      "id": "/en/docs/framer",
+      "title": "Framer Installation",
+      "content": "Add Landing Analytics to your Framer website using the Embed component",
+      "url": "/en/docs/framer",
+      "description": "Add Landing Analytics to your Framer website using the Embed component"
+    },
+    {
+      "id": "/en/docs/ab-testing",
+      "title": "A/B Testing",
+      "content": "Run experiments and make data-driven decisions with Landing Analytics' A/B testing capabilities",
+      "url": "/en/docs/ab-testing",
+      "description": "Run experiments and make data-driven decisions with Landing Analytics' A/B testing capabilities"
+    },
+    {
+      "id": "/en/docs/flags",
+      "title": "Traffic Event Flags",
+      "content": "Mark and track key events that impact your website traffic by clicking directly on your analytics graphs",
+      "url": "/en/docs/flags",
+      "description": "Mark and track key events that impact your website traffic by clicking directly on your analytics graphs"
+    },
+    {
+      "id": "/en/docs/section-tracking",
+      "title": "Section Tracking",
+      "content": "Track how much time visitors spend on each section of your website and understand visitor frequency patterns for better saturation strategies",
+      "url": "/en/docs/section-tracking",
+      "description": "Track how much time visitors spend on each section of your website and understand visitor frequency patterns for better saturation strategies"
+    },
+    {
+      "id": "/en/docs/funnel",
+      "title": "Complete Guide to Marketing Funnel Strategies",
+      "content": "Master the art of funnel optimization by understanding visitor stages, re-engagement tactics, timing optimization, and practical implementation strategies that drive conversions",
+      "url": "/en/docs/funnel",
+      "description": "Master the art of funnel optimization by understanding visitor stages, re-engagement tactics, timing optimization, and practical implementation strategies that drive conversions"
+    },
+    {
+      "id": "/en/docs/saturation",
+      "title": "Ad Saturation - The Science Behind Optimal Conversion Rates",
+      "content": "Master the art of ad saturation by understanding half-life psychology, impression frequency optimization, and strategic campaign sequencing to maximize conversion potential",
+      "url": "/en/docs/saturation",
+      "description": "Master the art of ad saturation by understanding half-life psychology, impression frequency optimization, and strategic campaign sequencing to maximize conversion potential"
+    },
+    {
+      "id": "/en/docs/frequent-visitors",
+      "title": "Understanding Website Visitor Behavior Patterns",
+      "content": "Master the art of visitor funnel optimization by understanding how different types of website visitors behave and how to guide them toward conversion through strategic engagement",
+      "url": "/en/docs/frequent-visitors",
+      "description": "Master the art of visitor funnel optimization by understanding how different types of website visitors behave and how to guide them toward conversion through strategic engagement"
+    },
+    {
+      "id": "/en/docs/experiment",
+      "title": "Landing Page Experimentation Guide",
+      "content": "Master the art of landing page experimentation to optimize conversions and drive sustainable growth through data-driven insights",
+      "url": "/en/docs/experiment",
+      "description": "Master the art of landing page experimentation to optimize conversions and drive sustainable growth through data-driven insights"
+    },
+    {
+      "id": "/en/docs/event-flags",
+      "title": "Manual Traffic Tracking Guide",
+      "content": "Learn how to manually flag content for precise traffic analysis and gain deeper insights into your landing page performance",
+      "url": "/en/docs/event-flags",
+      "description": "Learn how to manually flag content for precise traffic analysis and gain deeper insights into your landing page performance"
+    },
+    {
+      "id": "/en/docs/help",
+      "title": "Contact us",
+      "content": "Get real-time support, billing help, bug reporting, and access to framework documentation for Landing Analytics",
+      "url": "/en/docs/help",
+      "description": "Get real-time support, billing help, bug reporting, and access to framework documentation for Landing Analytics"
+    },
+    {
+      "id": "/en/api",
+      "title": "API Introduction",
+      "content": "Welcome to Landing Analytics REST API - The analytics platform built for founders. Build custom dashboards, feed AI systems, and integrate with your own systems.",
+      "url": "/en/api",
+      "description": "Welcome to Landing Analytics REST API - The analytics platform built for founders. Build custom dashboards, feed AI systems, and integrate with your own systems."
+    },
+    {
+      "id": "/en/api/createOrUpdateFlag",
+      "title": "Create or Update Flag",
+      "content": "Create a new flag for the project or update an existing one using the POST /flag/{id_project} endpoint",
+      "url": "/en/api/createOrUpdateFlag",
+      "description": "Create a new flag for the project or update an existing one using the POST /flag/{id_project} endpoint"
+    },
+    {
+      "id": "/en/api/getAlternative",
+      "title": "Get Alternative",
+      "content": "Retrieve detailed information about a specific alternative including sections and status using GET /alternative/{id_project}/{id_alternative}",
+      "url": "/en/api/getAlternative",
+      "description": "Retrieve detailed information about a specific alternative including sections and status using GET /alternative/{id_project}/{id_alternative}"
+    },
+    {
+      "id": "/en/api/getCurrentScenario",
+      "title": "Get Current Scenario",
+      "content": "Retrieve the current running scenario constructed from tracking data with calculated winner using GET /current_scenario/{id_project}",
+      "url": "/en/api/getCurrentScenario",
+      "description": "Retrieve the current running scenario constructed from tracking data with calculated winner using GET /current_scenario/{id_project}"
+    },
+    {
+      "id": "/en/api/getDepthGraph",
+      "title": "Get Depth Graph",
+      "content": "Retrieve the graph showing impressions and time spent per section for current tracking alternatives using GET /depth_graph/{id_project}",
+      "url": "/en/api/getDepthGraph",
+      "description": "Retrieve the graph showing impressions and time spent per section for current tracking alternatives using GET /depth_graph/{id_project}"
+    },
+    {
+      "id": "/en/api/getDepthOverview",
+      "title": "Get Depth Overview",
+      "content": "Retrieve overview statistics categorized by UTM, countries, language, referrer, and device type using GET /depth_overview/{id_project}",
+      "url": "/en/api/getDepthOverview",
+      "description": "Retrieve overview statistics categorized by UTM, countries, language, referrer, and device type using GET /depth_overview/{id_project}"
+    },
+    {
+      "id": "/en/api/getDepthStats",
+      "title": "Get Depth Statistics",
+      "content": "Retrieve comprehensive statistics across all current alternatives including visitors, traffic, popular sections, etc. using GET /depth_stats/{id_project}",
+      "url": "/en/api/getDepthStats",
+      "description": "Retrieve comprehensive statistics across all current alternatives including visitors, traffic, popular sections, etc. using GET /depth_stats/{id_project}"
+    },
+    {
+      "id": "/en/api/getFlagGraph",
+      "title": "Get Flag Graph",
+      "content": "Retrieve the cumulative flag graph across all alternatives and scenarios with impressions using GET /flag_graph/{id_project}",
+      "url": "/en/api/getFlagGraph",
+      "description": "Retrieve the cumulative flag graph across all alternatives and scenarios with impressions using GET /flag_graph/{id_project}"
+    },
+    {
+      "id": "/en/api/getFlags",
+      "title": "Get All Flags",
+      "content": "Retrieve all flags associated with a specific project using GET /flags/{id_project}",
+      "url": "/en/api/getFlags",
+      "description": "Retrieve all flags associated with a specific project using GET /flags/{id_project}"
+    },
+    {
+      "id": "/en/api/getHealth",
+      "title": "Health Check",
+      "content": "Check if the exploration API is running using GET /health endpoint",
+      "url": "/en/api/getHealth",
+      "description": "Check if the exploration API is running using GET /health endpoint"
+    },
+    {
+      "id": "/en/api/getScenario",
+      "title": "Get Scenario",
+      "content": "Retrieve detailed information about a specific scenario including alternatives and sections using GET /scenario/{id_project}/{id_scenario}",
+      "url": "/en/api/getScenario",
+      "description": "Retrieve detailed information about a specific scenario including alternatives and sections using GET /scenario/{id_project}/{id_scenario}"
+    },
+    {
+      "id": "/en/api/getScenarios",
+      "title": "Get All Scenarios",
+      "content": "Retrieve a list of all stored scenarios for a given project using GET /scenarios/{id_project}",
+      "url": "/en/api/getScenarios",
+      "description": "Retrieve a list of all stored scenarios for a given project using GET /scenarios/{id_project}"
+    },
+    {
+      "id": "/en/api/getSections",
+      "title": "Get Sections",
+      "content": "Retrieve all current sections an alternative is tracking for a project using GET /sections/{id_project}",
+      "url": "/en/api/getSections",
+      "description": "Retrieve all current sections an alternative is tracking for a project using GET /sections/{id_project}"
+    },
+    {
+      "id": "/en/api/resetScenario",
+      "title": "Reset Scenario",
+      "content": "Store current alternatives as a scenario and reset all stats, tracking data, and overview information using GET /scenario/reset/{id_project}",
+      "url": "/en/api/resetScenario",
+      "description": "Store current alternatives as a scenario and reset all stats, tracking data, and overview information using GET /scenario/reset/{id_project}"
+    },
+    {
+      "id": "/en/api/saveScenario",
+      "title": "Save Scenario",
+      "content": "Take a snapshot of the current project state and save as scenario without resetting any information using GET /scenario/save/{id_project}",
+      "url": "/en/api/saveScenario",
+      "description": "Take a snapshot of the current project state and save as scenario without resetting any information using GET /scenario/save/{id_project}"
+    }
+  ]

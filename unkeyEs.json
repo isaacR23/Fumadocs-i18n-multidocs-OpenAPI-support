@@ -1,27 +1,14 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "Unkey API",
-    "description": "A mock API for key management and analytics",
-    "version": "1.0.0",
-    "contact": {
-      "name": "API Support",
-      "email": "support@unkey.dev",
-      "url": "https://unkey.dev"
-    },
-    "license": {
-      "name": "MIT",
-      "url": "https://opensource.org/licenses/MIT"
-    }
+    "title": "API de Exploración",
+    "description": "API para explorar analíticas de proyectos, escenarios, alternativas y datos de seguimiento",
+    "version": "0.3.1"
   },
   "servers": [
     {
-      "url": "https://api.unkey.dev/v1",
-      "description": "Production server"
-    },
-    {
-      "url": "https://staging-api.unkey.dev/v1",
-      "description": "Staging server"
+      "url": "https://backend-landing-analytics.fly.dev/api/v0/exploration",
+      "description": "Endpoints de exploración"
     }
   ],
   "security": [
@@ -29,361 +16,6 @@
       "bearerAuth": []
     }
   ],
-  "paths": {
-    "/keys": {
-      "get": {
-        "summary": "List all keys",
-        "description": "Retrieve a list of all API keys for the authenticated workspace",
-        "tags": ["Keys"],
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "Number of keys to return (max 100)",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 100,
-              "default": 20
-            }
-          },
-          {
-            "name": "offset",
-            "in": "query",
-            "description": "Number of keys to skip",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 0,
-              "default": 0
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of keys retrieved successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "keys": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Key"
-                      }
-                    },
-                    "total": {
-                      "type": "integer",
-                      "description": "Total number of keys"
-                    },
-                    "hasMore": {
-                      "type": "boolean",
-                      "description": "Whether there are more keys to fetch"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized"
-          },
-          "500": {
-            "$ref": "#/components/responses/InternalServerError"
-          }
-        }
-      },
-      "post": {
-        "summary": "Create a new key",
-        "description": "Create a new API key with specified permissions and metadata",
-        "tags": ["Keys"],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateKeyRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Key created successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "key": {
-                      "$ref": "#/components/schemas/Key"
-                    },
-                    "keyId": {
-                      "type": "string",
-                      "description": "Unique identifier for the created key"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized"
-          },
-          "500": {
-            "$ref": "#/components/responses/InternalServerError"
-          }
-        }
-      }
-    },
-    "/keys/{keyId}": {
-      "get": {
-        "summary": "Get a specific key",
-        "description": "Retrieve details of a specific API key by its ID",
-        "tags": ["Keys"],
-        "parameters": [
-          {
-            "name": "keyId",
-            "in": "path",
-            "required": true,
-            "description": "The unique identifier of the key",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Key details retrieved successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Key"
-                }
-              }
-            }
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized"
-          }
-        }
-      },
-      "patch": {
-        "summary": "Update a key",
-        "description": "Update properties of an existing API key",
-        "tags": ["Keys"],
-        "parameters": [
-          {
-            "name": "keyId",
-            "in": "path",
-            "required": true,
-            "description": "The unique identifier of the key",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateKeyRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Key updated successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Key"
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized"
-          }
-        }
-      },
-      "delete": {
-        "summary": "Delete a key",
-        "description": "Permanently delete an API key",
-        "tags": ["Keys"],
-        "parameters": [
-          {
-            "name": "keyId",
-            "in": "path",
-            "required": true,
-            "description": "The unique identifier of the key",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Key deleted successfully"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized"
-          }
-        }
-      }
-    },
-    "/keys/{keyId}/verify": {
-      "post": {
-        "summary": "Verify a key",
-        "description": "Verify if an API key is valid and return its details",
-        "tags": ["Keys"],
-        "parameters": [
-          {
-            "name": "keyId",
-            "in": "path",
-            "required": true,
-            "description": "The unique identifier of the key",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Key verification result",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "valid": {
-                      "type": "boolean",
-                      "description": "Whether the key is valid"
-                    },
-                    "key": {
-                      "$ref": "#/components/schemas/Key"
-                    },
-                    "usage": {
-                      "$ref": "#/components/schemas/Usage"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized"
-          }
-        }
-      }
-    },
-    "/analytics/usage": {
-      "get": {
-        "summary": "Obtener análisis de uso",
-        "description": "Retrieve usage analytics for keys in a given time period",
-        "tags": ["Analytics"],
-        "parameters": [
-          {
-            "name": "start",
-            "in": "query",
-            "required": true,
-            "description": "Start date for analytics (ISO 8601)",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          },
-          {
-            "name": "end",
-            "in": "query",
-            "required": true,
-            "description": "End date for analytics (ISO 8601)",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          },
-          {
-            "name": "granularity",
-            "in": "query",
-            "description": "Data granularity",
-            "schema": {
-              "type": "string",
-              "enum": ["hour", "day", "week", "month"],
-              "default": "day"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Usage analytics retrieved successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AnalyticsResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized"
-          }
-        }
-      }
-    },
-    "/workspaces": {
-      "get": {
-        "summary": "List workspaces",
-        "description": "Get all workspaces accessible by the authenticated user",
-        "tags": ["Workspaces"],
-        "responses": {
-          "200": {
-            "description": "List of workspaces",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "workspaces": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Workspace"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized"
-          }
-        }
-      }
-    }
-  },
   "components": {
     "securitySchemes": {
       "bearerAuth": {
@@ -393,354 +25,1107 @@
       }
     },
     "schemas": {
-      "Key": {
+      "StandardResponse": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique identifier for the key"
+          "success": {
+            "type": "boolean"
           },
-          "key": {
-            "type": "string",
-            "description": "The actual API key value"
+          "message": {
+            "type": "string"
           },
-          "name": {
-            "type": "string",
-            "description": "Human-readable name for the key"
-          },
-          "workspaceId": {
-            "type": "string",
-            "description": "ID of the workspace this key belongs to"
-          },
-          "apiId": {
-            "type": "string",
-            "description": "ID of the API this key is for"
-          },
-          "environment": {
-            "type": "string",
-            "enum": ["production", "staging", "development"],
-            "description": "Environment this key is for"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "description": "When the key was created"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "description": "When the key was last updated"
-          },
-          "expires": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the key expires (null if no expiration)"
-          },
-          "rateLimit": {
-            "$ref": "#/components/schemas/RateLimit"
-          },
-          "permissions": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "List of permissions granted to this key"
-          },
-          "metadata": {
-            "type": "object",
-            "additionalProperties": true,
-            "description": "Custom metadata associated with the key"
-          },
-          "enabled": {
-            "type": "boolean",
-            "description": "Whether the key is currently enabled"
+          "content": {
+            "oneOf": [
+              { "type": "null" },
+              { "type": "object" },
+              { "type": "array" }
+            ]
           }
         },
-        "required": ["id", "key", "workspaceId", "createdAt", "enabled"]
+        "required": ["success", "message", "content"]
       },
-      "CreateKeyRequest": {
+      "Flag": {
+        "type": "object",
+        "properties": {
+          "read_name": {
+            "type": "string"
+          },
+          "flag_start": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "creation_date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "id_flag": {
+            "type": "string"
+          }
+        },
+        "required": ["read_name", "flag_start", "creation_date", "id_flag"]
+      },
+      "Section": {
         "type": "object",
         "properties": {
           "name": {
-            "type": "string",
-            "description": "Human-readable name for the key"
+            "type": "string"
           },
-          "apiId": {
-            "type": "string",
-            "description": "ID of the API this key is for"
+          "visit_count": {
+            "type": "integer"
           },
-          "environment": {
-            "type": "string",
-            "enum": ["production", "staging", "development"],
-            "description": "Environment this key is for"
-          },
-          "expires": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the key should expire"
-          },
-          "rateLimit": {
-            "$ref": "#/components/schemas/RateLimit"
-          },
-          "permissions": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "List of permissions to grant to this key"
-          },
-          "metadata": {
-            "type": "object",
-            "additionalProperties": true,
-            "description": "Custom metadata to associate with the key"
+          "time_spent": {
+            "type": "number"
           }
         },
-        "required": ["apiId"]
+        "required": ["name", "visit_count", "time_spent"]
       },
-      "UpdateKeyRequest": {
+      "ResponseSection": {
         "type": "object",
         "properties": {
           "name": {
+            "type": "string"
+          },
+          "impressions": {
+            "type": "integer"
+          },
+          "total_time_ms": {
+            "type": "number"
+          },
+          "created_at": {
             "type": "string",
-            "description": "Human-readable name for the key"
-          },
-          "expires": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the key should expire"
-          },
-          "rateLimit": {
-            "$ref": "#/components/schemas/RateLimit"
-          },
-          "permissions": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "List of permissions to grant to this key"
-          },
-          "metadata": {
-            "type": "object",
-            "additionalProperties": true,
-            "description": "Custom metadata to associate with the key"
-          },
-          "enabled": {
-            "type": "boolean",
-            "description": "Whether the key should be enabled"
-          }
-        }
-      },
-      "RateLimit": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "enum": ["fast", "consistent"],
-            "description": "Type of rate limiting algorithm"
-          },
-          "limit": {
-            "type": "integer",
-            "minimum": 1,
-            "description": "Number of requests allowed"
-          },
-          "refillRate": {
-            "type": "integer",
-            "minimum": 1,
-            "description": "How many tokens to refill per refillInterval"
-          },
-          "refillInterval": {
-            "type": "integer",
-            "minimum": 1000,
-            "description": "Refill interval in milliseconds"
+            "format": "date-time"
           }
         },
-        "required": ["type", "limit", "refillRate", "refillInterval"]
+        "required": ["name", "impressions", "total_time_ms", "created_at"]
       },
-      "Usage": {
+      "FlagGraphItem": {
         "type": "object",
         "properties": {
-          "requestCount": {
-            "type": "integer",
-            "description": "Total number of requests made with this key"
-          },
-          "lastUsed": {
+          "date": {
             "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the key was last used"
+            "format": "date-time"
           },
-          "remaining": {
-            "type": "integer",
-            "nullable": true,
-            "description": "Remaining rate limit tokens (null if no rate limit)"
-          }
-        }
-      },
-      "AnalyticsResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
+          "impressions": {
+            "type": "integer"
+          },
+          "flags": {
             "type": "array",
             "items": {
               "type": "object",
               "properties": {
-                "time": {
+                "date": {
                   "type": "string",
-                  "format": "date-time",
-                  "description": "Timestamp for this data point"
+                  "format": "date-time"
                 },
-                "requests": {
-                  "type": "integer",
-                  "description": "Number of requests in this time period"
+                "flag": {
+                  "type": "string"
                 },
-                "errors": {
-                  "type": "integer",
-                  "description": "Number of errors in this time period"
-                },
-                "success": {
-                  "type": "integer",
-                  "description": "Number of successful requests in this time period"
+                "id_flag": {
+                  "type": "string"
                 }
               },
-              "required": ["time", "requests", "errors", "success"]
+              "required": ["date", "flag", "id_flag"]
             }
-          },
-          "total": {
-            "type": "object",
-            "properties": {
-              "requests": {
-                "type": "integer",
-                "description": "Total requests in the time period"
-              },
-              "errors": {
-                "type": "integer",
-                "description": "Total errors in the time period"
-              },
-              "success": {
-                "type": "integer",
-                "description": "Total successful requests in the time period"
-              }
-            }
-          }
-        }
-      },
-      "Workspace": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique identifier for the workspace"
-          },
-          "name": {
-            "type": "string",
-            "description": "Name of the workspace"
-          },
-          "slug": {
-            "type": "string",
-            "description": "URL-friendly identifier for the workspace"
-          },
-          "plan": {
-            "type": "string",
-            "enum": ["free", "pro", "enterprise"],
-            "description": "Subscription plan for the workspace"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "description": "When the workspace was created"
-          },
-          "features": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "Available features for this workspace"
           }
         },
-        "required": ["id", "name", "slug", "plan", "createdAt"]
+        "required": ["date", "impressions", "flags"]
       },
-      "Error": {
+      "DepthGraphItem": {
         "type": "object",
         "properties": {
-          "error": {
+          "section": {
+            "type": "string"
+          },
+          "id_tracking_data": {
+            "type": "string"
+          },
+          "time_spent_ms": {
+            "type": "number"
+          },
+          "total_visitors": {
+            "type": "integer"
+          }
+        },
+        "required": ["section", "id_tracking_data", "time_spent_ms", "total_visitors"]
+      },
+      "DepthStats": {
+        "type": "object",
+        "properties": {
+          "unique_visitors": {
+            "type": "integer"
+          },
+          "traffic": {
+            "type": "integer"
+          },
+          "most_popular_section": {
+            "type": "string"
+          },
+          "average_time_spent": {
+            "type": "number"
+          },
+          "bounce_rate": {
+            "type": "number"
+          },
+          "visits_1": {
+            "type": "integer"
+          },
+          "visits_2": {
+            "type": "integer"
+          },
+          "visits_3": {
+            "type": "integer"
+          },
+          "visits_4_plus": {
+            "type": "integer"
+          }
+        },
+        "required": ["unique_visitors", "traffic", "most_popular_section", "average_time_spent", "bounce_rate", "visits_1", "visits_2", "visits_3", "visits_4_plus"]
+      },
+      "OverviewStat": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "value": {
+            "type": "number"
+          }
+        },
+        "required": ["name", "value"]
+      },
+      "DepthOverview": {
+        "type": "object",
+        "properties": {
+          "utm": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OverviewStat"
+            }
+          },
+          "countries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OverviewStat"
+            }
+          },
+          "language": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OverviewStat"
+            }
+          },
+          "referrer": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OverviewStat"
+            }
+          },
+          "device_type": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OverviewStat"
+            }
+          }
+        },
+        "required": ["utm", "countries", "language", "referrer", "device_type"]
+      },
+      "ScenarioAlternative": {
+        "type": "object",
+        "properties": {
+          "id_alternative": {
+            "type": "string"
+          },
+          "alternative_name": {
+            "type": "string"
+          },
+          "sections": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "impressions": {
+                  "type": "integer"
+                },
+                "total_time_ms": {
+                  "type": "number"
+                }
+              },
+              "required": ["name", "impressions", "total_time_ms"]
+            }
+          }
+        },
+        "required": ["id_alternative", "alternative_name", "sections"]
+      },
+      "ResponseScenario": {
+        "type": "object",
+        "properties": {
+          "id_scenario": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "start_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "finished_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "alternatives": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScenarioAlternative"
+            }
+          },
+          "favorite": {
+            "type": "boolean"
+          },
+          "winner": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": ["id_scenario", "name", "description", "start_at", "finished_at", "alternatives", "favorite", "winner"]
+      },
+      "ListScenario": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "id_scenario": {
+            "type": "string"
+          },
+          "start_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "finished_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "alternative_a_name": {
+            "type": "string"
+          },
+          "alternative_b_name": {
+            "type": "string"
+          }
+        },
+        "required": ["name", "id_scenario", "start_at", "finished_at", "alternative_a_name", "alternative_b_name"]
+      },
+      "Alternative": {
+        "type": "object",
+        "properties": {
+          "sections": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResponseSection"
+            }
+          },
+          "status": {
+            "type": "string",
+            "enum": ["active", "stored"]
+          },
+          "id_alternative": {
+            "type": "string"
+          },
+          "started_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "finished_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "required": ["sections", "status", "id_alternative", "started_at", "finished_at"]
+      },
+      "CurrentScenarioAlternative": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "visits": {
+            "type": "integer"
+          },
+          "total_time": {
+            "type": "number"
+          },
+          "sections": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "impressions": {
+                  "type": "integer"
+                },
+                "total_time_ms": {
+                  "type": "number"
+                }
+              },
+              "required": ["name", "impressions", "total_time_ms"]
+            }
+          },
+          "started_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": ["name", "visits", "total_time", "sections", "started_at"]
+      },
+      "CurrentScenario": {
+        "type": "object",
+        "properties": {
+          "start_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "finished_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "winner_alternative": {
+            "type": "string",
+            "nullable": true
+          },
+          "alternatives": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CurrentScenarioAlternative"
+            }
+          }
+        },
+        "required": ["start_at", "finished_at", "winner_alternative", "alternatives"]
+      },
+      "FlagRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "id_flag": {
+            "type": "string"
+          }
+        },
+        "required": ["name", "timestamp"]
+      },
+      "ResetResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "content": {
             "type": "object",
             "properties": {
-              "code": {
+              "new_scenario": {
                 "type": "string",
-                "description": "Error code"
-              },
-              "message": {
-                "type": "string",
-                "description": "Human-readable error message"
-              },
-              "docs": {
-                "type": "string",
-                "description": "Link to documentation about this error"
+                "nullable": true
               }
             },
-            "required": ["code", "message"]
+            "required": ["new_scenario"]
           }
-        }
+        },
+        "required": ["success", "message", "content"]
       }
     },
-    "responses": {
-      "BadRequest": {
-        "description": "Bad request - invalid parameters",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            }
-          }
+    "parameters": {
+      "ProjectId": {
+        "name": "id_project",
+        "in": "path",
+        "required": true,
+        "description": "El identificador único del proyecto",
+        "schema": {
+          "type": "string"
         }
       },
-      "Unauthorized": {
-        "description": "Unauthorized - invalid or missing authentication",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            }
-          }
+      "ScenarioId": {
+        "name": "id_scenario",
+        "in": "path",
+        "required": true,
+        "description": "El identificador único del escenario",
+        "schema": {
+          "type": "string"
         }
       },
-      "NotFound": {
-        "description": "Resource not found",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            }
-          }
-        }
-      },
-      "InternalServerError": {
-        "description": "Internal server error",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
-            }
-          }
+      "AlternativeId": {
+        "name": "id_alternative",
+        "in": "path",
+        "required": true,
+        "description": "El identificador único de la alternativa",
+        "schema": {
+          "type": "string"
         }
       }
     }
   },
-  "tags": [
-    {
-      "name": "Keys",
-      "description": "API key management operations"
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Endpoint de verificación de salud",
+        "description": "Verificar si la API de exploración está funcionando",
+        "operationId": "getHealth",
+        "responses": {
+          "200": {
+            "description": "El servicio está funcionando correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     },
-    {
-      "name": "Analytics",
-      "description": "Usage analytics and reporting"
+    "/flags/{id_project}": {
+      "get": {
+        "summary": "Obtener todas las banderas de un proyecto",
+        "description": "Recuperar todas las banderas asociadas con un proyecto específico",
+        "operationId": "getFlags",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ProjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Banderas recuperadas exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/StandardResponse"
+                    },
+                    {
+                      "properties": {
+                        "content": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Flag"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Solicitud inválida o no autorizada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     },
-    {
-      "name": "Workspaces",
-      "description": "Workspace management operations"
+    "/sections/{id_project}": {
+      "get": {
+        "summary": "Obtener secciones de un proyecto",
+        "description": "Recuperar todas las secciones actuales que una alternativa está rastreando para un proyecto",
+        "operationId": "getSections",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ProjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Secciones recuperadas exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/StandardResponse"
+                    },
+                    {
+                      "properties": {
+                        "content": {
+                          "type": "object",
+                          "properties": {
+                            "sections": {
+                              "type": "array",
+                              "items": {
+                                "$ref": "#/components/schemas/Section"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Solicitud inválida o no autorizada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/flag/{id_project}": {
+      "post": {
+        "summary": "Crear o actualizar una bandera",
+        "description": "Crear una nueva bandera para el proyecto o actualizar una existente",
+        "operationId": "createOrUpdateFlag",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ProjectId"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FlagRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Bandera creada o actualizada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/StandardResponse"
+                    },
+                    {
+                      "properties": {
+                        "content": {
+                          "type": "object",
+                          "properties": {
+                            "id_flag": {
+                              "type": "string"
+                            }
+                          },
+                          "required": ["id_flag"]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Solicitud inválida o no autorizada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/flag_graph/{id_project}": {
+      "get": {
+        "summary": "Obtener gráfico de banderas de un proyecto",
+        "description": "Recuperar el gráfico acumulativo de banderas a través de todas las alternativas y escenarios con impresiones",
+        "operationId": "getFlagGraph",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ProjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Gráfico de banderas recuperado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/StandardResponse"
+                    },
+                    {
+                      "properties": {
+                        "content": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/FlagGraphItem"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Solicitud inválida o no autorizada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/depth_graph/{id_project}": {
+      "get": {
+        "summary": "Obtener gráfico de profundidad de un proyecto",
+        "description": "Recuperar el gráfico que muestra impresiones y tiempo gastado por sección para las alternativas de seguimiento actuales",
+        "operationId": "getDepthGraph",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ProjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Gráfico de profundidad recuperado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/StandardResponse"
+                    },
+                    {
+                      "properties": {
+                        "content": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/DepthGraphItem"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Solicitud inválida o no autorizada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/depth_stats/{id_project}": {
+      "get": {
+        "summary": "Obtener estadísticas de profundidad de un proyecto",
+        "description": "Recuperar estadísticas completas a través de todas las alternativas actuales incluyendo visitantes, tráfico, secciones populares, etc.",
+        "operationId": "getDepthStats",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ProjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Estadísticas de profundidad recuperadas exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/StandardResponse"
+                    },
+                    {
+                      "properties": {
+                        "content": {
+                          "$ref": "#/components/schemas/DepthStats"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Solicitud inválida o no autorizada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/depth_overview/{id_project}": {
+      "get": {
+        "summary": "Obtener resumen de profundidad de un proyecto",
+        "description": "Recuperar estadísticas de resumen categorizadas por UTM, países, idioma, referrer y tipo de dispositivo",
+        "operationId": "getDepthOverview",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ProjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resumen de profundidad recuperado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/StandardResponse"
+                    },
+                    {
+                      "properties": {
+                        "content": {
+                          "$ref": "#/components/schemas/DepthOverview"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Solicitud inválida o no autorizada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scenario/{id_project}/{id_scenario}": {
+      "get": {
+        "summary": "Obtener un escenario específico",
+        "description": "Recuperar información detallada sobre un escenario específico incluyendo alternativas y secciones",
+        "operationId": "getScenario",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ProjectId"
+          },
+          {
+            "$ref": "#/components/parameters/ScenarioId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Escenario recuperado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/StandardResponse"
+                    },
+                    {
+                      "properties": {
+                        "content": {
+                          "$ref": "#/components/schemas/ResponseScenario"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Solicitud inválida o no autorizada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Escenario no encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scenarios/{id_project}": {
+      "get": {
+        "summary": "Listar todos los escenarios de un proyecto",
+        "description": "Recuperar una lista de todos los escenarios almacenados para un proyecto dado",
+        "operationId": "getScenarios",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ProjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de escenarios recuperada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/StandardResponse"
+                    },
+                    {
+                      "properties": {
+                        "content": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/ListScenario"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Solicitud inválida o no autorizada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/alternative/{id_project}/{id_alternative}": {
+      "get": {
+        "summary": "Obtener una alternativa específica",
+        "description": "Recuperar información detallada sobre una alternativa específica incluyendo secciones y estado",
+        "operationId": "getAlternative",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ProjectId"
+          },
+          {
+            "$ref": "#/components/parameters/AlternativeId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Alternativa recuperada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/StandardResponse"
+                    },
+                    {
+                      "properties": {
+                        "content": {
+                          "$ref": "#/components/schemas/Alternative"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Solicitud inválida o no autorizada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Alternativa no encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/current_scenario/{id_project}": {
+      "get": {
+        "summary": "Obtener escenario actual de un proyecto",
+        "description": "Recuperar el escenario actual en ejecución construido a partir de datos de seguimiento con ganador calculado",
+        "operationId": "getCurrentScenario",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ProjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Escenario actual recuperado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/StandardResponse"
+                    },
+                    {
+                      "properties": {
+                        "content": {
+                          "$ref": "#/components/schemas/CurrentScenario"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Solicitud inválida o no autorizada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scenario/reset/{id_project}": {
+      "get": {
+        "summary": "Reiniciar escenario actual",
+        "description": "Almacenar alternativas actuales como un escenario y reiniciar todas las estadísticas, datos de seguimiento e información de resumen",
+        "operationId": "resetScenario",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ProjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Escenario reiniciado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResetResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Solicitud inválida o no autorizada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scenario/save/{id_project}": {
+      "get": {
+        "summary": "Guardar escenario actual",
+        "description": "Tomar una instantánea del estado actual del proyecto y guardar como escenario sin reiniciar ninguna información",
+        "operationId": "saveScenario",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ProjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Escenario guardado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResetResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Solicitud inválida o no autorizada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
-  ]
+  }
 }

@@ -1,0 +1,200 @@
+{
+    "en": {
+        "title": "API Reference",
+        "description": "Complete API documentation for Landing Analytics platform",
+        "url": "/en/api",
+        "children": [
+            {
+                "type": "separator",
+                "name": "Guide"
+            },
+            {
+                "type": "page",
+                "name": "Introduction",
+                "url": "/en/api"
+            },
+            {
+                "type": "separator",
+                "name": "Flags Management"
+            },
+            {
+                "type": "page",
+                "name": "GET Flags",
+                "url": "/en/api/getFlags"
+            },
+            {
+                "type": "page",
+                "name": "POST Create or Update Flag",
+                "url": "/en/api/createOrUpdateFlag"
+            },
+            {
+                "type": "page",
+                "name": "GET Flag Graph",
+                "url": "/en/api/getFlagGraph"
+            },
+            {
+                "type": "separator",
+                "name": "Sections"
+            },
+            {
+                "type": "page",
+                "name": "GET Sections",
+                "url": "/en/api/getSections"
+            },
+            {
+                "type": "separator",
+                "name": "Depth Analytics"
+            },
+            {
+                "type": "page",
+                "name": "GET Depth Graph",
+                "url": "/en/api/getDepthGraph"
+            },
+            {
+                "type": "page",
+                "name": "GET Depth Stats",
+                "url": "/en/api/getDepthStats"
+            },
+            {
+                "type": "page",
+                "name": "GET Depth Overview",
+                "url": "/en/api/getDepthOverview"
+            },
+            {
+                "type": "separator",
+                "name": "Scenarios"
+            },
+            {
+                "type": "page",
+                "name": "GET Scenarios",
+                "url": "/en/api/getScenarios"
+            },
+            {
+                "type": "page",
+                "name": "GET Scenario",
+                "url": "/en/api/getScenario"
+            },
+            {
+                "type": "page",
+                "name": "GET Current Scenario",
+                "url": "/en/api/getCurrentScenario"
+            },
+            {
+                "type": "page",
+                "name": "GET Save Scenario",
+                "url": "/en/api/saveScenario"
+            },
+            {
+                "type": "page",
+                "name": "GET Reset Scenario",
+                "url": "/en/api/resetScenario"
+            },
+            {
+                "type": "separator",
+                "name": "Alternatives"
+            },
+            {
+                "type": "page",
+                "name": "GET Alternative",
+                "url": "/en/api/getAlternative"
+            }
+        ]
+    },
+    "es": {
+        "title": "API de Exploración",
+        "description": "Complete API documentation for Landing Analytics platform",
+        "url": "/es/api",
+        "children": [
+            {
+                "type": "page",
+                "name": "Introducción",
+                "url": "/es/api"
+            },
+            {
+                "type": "separator",
+                "name": "Gestión de Banderas"
+            },
+            {
+                "type": "page",
+                "name": "GET Banderas",
+                "url": "/es/api/getFlags"
+            },
+            {
+                "type": "page",
+                "name": "POST Crear o Actualizar Bandera",
+                "url": "/es/api/createOrUpdateFlag"
+            },
+            {
+                "type": "page",
+                "name": "GET Gráfico de Banderas",
+                "url": "/es/api/getFlagGraph"
+            },
+            {
+                "type": "separator",
+                "name": "Secciones"
+            },
+            {
+                "type": "page",
+                "name": "GET Secciones",
+                "url": "/es/api/getSections"
+            },
+            {
+                "type": "separator",
+                "name": "Analíticas de Profundidad"
+            },
+            {
+                "type": "page",
+                "name": "GET Gráfico de Profundidad",
+                "url": "/es/api/getDepthGraph"
+            },
+            {
+                "type": "page",
+                "name": "GET Estadísticas de Profundidad",
+                "url": "/es/api/getDepthStats"
+            },
+            {
+                "type": "page",
+                "name": "GET Resumen de Profundidad",
+                "url": "/es/api/getDepthOverview"
+            },
+            {
+                "type": "separator",
+                "name": "Escenarios"
+            },
+            {
+                "type": "page",
+                "name": "GET Escenarios",
+                "url": "/es/api/getScenarios"
+            },
+            {
+                "type": "page",
+                "name": "GET Escenario",
+                "url": "/es/api/getScenario"
+            },
+            {
+                "type": "page",
+                "name": "GET Escenario Actual",
+                "url": "/es/api/getCurrentScenario"
+            },
+            {
+                "type": "page",
+                "name": "GET Guardar Escenario",
+                "url": "/es/api/saveScenario"
+            },
+            {
+                "type": "page",
+                "name": "GET Reiniciar Escenario",
+                "url": "/es/api/resetScenario"
+            },
+            {
+                "type": "separator",
+                "name": "Alternativas"
+            },
+            {
+                "type": "page",
+                "name": "GET Alternativa",
+                "url": "/es/api/getAlternative"
+            }
+        ]
+    }
+}

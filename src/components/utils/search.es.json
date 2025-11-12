@@ -1,0 +1,247 @@
+[
+    {
+      "id": "/es/docs",
+      "title": "Introducción",
+      "content": "Bienvenido a Landing Analytics - La plataforma de análisis construida para fundadores",
+      "url": "/es/docs",
+      "description": "Bienvenido a Landing Analytics - La plataforma de análisis construida para fundadores"
+    },
+    {
+      "id": "/es/docs/overview",
+      "title": "Resumen",
+      "content": "Aprende sobre los conceptos principales de Landing Analytics y cómo puede ayudar a tu negocio",
+      "url": "/es/docs/overview",
+      "description": "Aprende sobre los conceptos principales de Landing Analytics y cómo puede ayudar a tu negocio"
+    },
+    {
+      "id": "/es/docs/quick-start",
+      "title": "Guía de Inicio Rápido",
+      "content": "Comienza con Landing Analytics en minutos con esta guía básica de instalación",
+      "url": "/es/docs/quick-start",
+      "description": "Comienza con Landing Analytics en minutos con esta guía básica de instalación"
+    },
+    {
+      "id": "/es/docs/artificial-support",
+      "title": "llms-full.txt",
+      "content": "Este archivo contiene instrucciones que puedes copiar y pegar en tu agente de elección y comenzar a hacer preguntas sobre cómo gestionar y obtener el máximo de Landing Analytics",
+      "url": "/es/docs/artificial-support",
+      "description": "Este archivo contiene instrucciones que puedes copiar y pegar en tu agente de elección y comenzar a hacer preguntas sobre cómo gestionar y obtener el máximo de Landing Analytics"
+    },
+    {
+      "id": "/es/docs/html",
+      "title": "Instalación HTML",
+      "content": "Agrega Landing Analytics a tu sitio web HTML con una instalación simple de script tag",
+      "url": "/es/docs/html",
+      "description": "Agrega Landing Analytics a tu sitio web HTML con una instalación simple de script tag"
+    },
+    {
+      "id": "/es/docs/vue",
+      "title": "Instalación Vue",
+      "content": "Agrega Landing Analytics a tu aplicación Vue usando la Composition API",
+      "url": "/es/docs/vue",
+      "description": "Agrega Landing Analytics a tu aplicación Vue usando la Composition API"
+    },
+    {
+      "id": "/es/docs/nuxt",
+      "title": "Integración Nuxt",
+      "content": "Todo lo que necesitas saber sobre integrar Landing Analytics con Nuxt usando nuestro script de seguimiento",
+      "url": "/es/docs/nuxt",
+      "description": "Todo lo que necesitas saber sobre integrar Landing Analytics con Nuxt usando nuestro script de seguimiento"
+    },
+    {
+      "id": "/es/docs/next",
+      "title": "Instalación Next.js",
+      "content": "Agrega Landing Analytics a tu aplicación Next.js con inicialización adecuada del lado del cliente",
+      "url": "/es/docs/next",
+      "description": "Agrega Landing Analytics a tu aplicación Next.js con inicialización adecuada del lado del cliente"
+    },
+    {
+      "id": "/es/docs/svelte",
+      "title": "Integración Svelte",
+      "content": "Aprende cómo integrar Landing Analytics con tus aplicaciones Svelte y SvelteKit usando nuestro script de seguimiento",
+      "url": "/es/docs/svelte",
+      "description": "Aprende cómo integrar Landing Analytics con tus aplicaciones Svelte y SvelteKit usando nuestro script de seguimiento"
+    },
+    {
+      "id": "/es/docs/wordpress",
+      "title": "Integración WordPress",
+      "content": "Aprende cómo integrar Landing Analytics con WordPress usando bloques Gutenberg y personalización de temas",
+      "url": "/es/docs/wordpress",
+      "description": "Aprende cómo integrar Landing Analytics con WordPress usando bloques Gutenberg y personalización de temas"
+    },
+    {
+      "id": "/es/docs/framer",
+      "title": "Instalación Framer",
+      "content": "Agrega Landing Analytics a tu sitio web Framer usando el componente Embed",
+      "url": "/es/docs/framer",
+      "description": "Agrega Landing Analytics a tu sitio web Framer usando el componente Embed"
+    },
+    {
+      "id": "/es/docs/ab-testing",
+      "title": "Pruebas A/B",
+      "content": "Ejecuta experimentos y toma decisiones basadas en datos con las capacidades de pruebas A/B de Landing Analytics",
+      "url": "/es/docs/ab-testing",
+      "description": "Ejecuta experimentos y toma decisiones basadas en datos con las capacidades de pruebas A/B de Landing Analytics"
+    },
+    {
+      "id": "/es/docs/flags",
+      "title": "Banderas de Eventos de Tráfico",
+      "content": "Marca y rastrea eventos clave que impactan el tráfico de tu sitio web haciendo clic directamente en tus gráficos de análisis",
+      "url": "/es/docs/flags",
+      "description": "Marca y rastrea eventos clave que impactan el tráfico de tu sitio web haciendo clic directamente en tus gráficos de análisis"
+    },
+    {
+      "id": "/es/docs/section-tracking",
+      "title": "Seguimiento de Secciones",
+      "content": "Rastrea cuánto tiempo pasan los visitantes en cada sección de tu sitio web y entiende los patrones de frecuencia de visitantes para mejores estrategias de saturación",
+      "url": "/es/docs/section-tracking",
+      "description": "Rastrea cuánto tiempo pasan los visitantes en cada sección de tu sitio web y entiende los patrones de frecuencia de visitantes para mejores estrategias de saturación"
+    },
+    {
+      "id": "/es/docs/funnel",
+      "title": "Guía Completa de Estrategias de Embudo de Marketing",
+      "content": "Domina el arte de la optimización de embudos entendiendo las etapas de visitantes, tácticas de re-engagement, optimización de tiempo y estrategias de implementación práctica que impulsan conversiones",
+      "url": "/es/docs/funnel",
+      "description": "Domina el arte de la optimización de embudos entendiendo las etapas de visitantes, tácticas de re-engagement, optimización de tiempo y estrategias de implementación práctica que impulsan conversiones"
+    },
+    {
+      "id": "/es/docs/saturation",
+      "title": "Saturación Publicitaria - La Ciencia Detrás de las Tasas de Conversión Óptimas",
+      "content": "Domina el arte de la saturación publicitaria entendiendo la psicología de vida media, optimización de frecuencia de impresiones y secuenciación estratégica de campañas para maximizar el potencial de conversión",
+      "url": "/es/docs/saturation",
+      "description": "Domina el arte de la saturación publicitaria entendiendo la psicología de vida media, optimización de frecuencia de impresiones y secuenciación estratégica de campañas para maximizar el potencial de conversión"
+    },
+    {
+      "id": "/es/docs/frequent-visitors",
+      "title": "Entendiendo los Patrones de Comportamiento de Visitantes del Sitio Web",
+      "content": "Domina el arte de la optimización de embudos de visitantes entendiendo cómo se comportan diferentes tipos de visitantes del sitio web y cómo guiarlos hacia la conversión a través del engagement estratégico",
+      "url": "/es/docs/frequent-visitors",
+      "description": "Domina el arte de la optimización de embudos de visitantes entendiendo cómo se comportan diferentes tipos de visitantes del sitio web y cómo guiarlos hacia la conversión a través del engagement estratégico"
+    },
+    {
+      "id": "/es/docs/experiment",
+      "title": "Guía de Experimentación de Páginas de Aterrizaje",
+      "content": "Domina el arte de la experimentación de páginas de aterrizaje para optimizar conversiones e impulsar crecimiento sostenible a través de insights basados en datos",
+      "url": "/es/docs/experiment",
+      "description": "Domina el arte de la experimentación de páginas de aterrizaje para optimizar conversiones e impulsar crecimiento sostenible a través de insights basados en datos"
+    },
+    {
+      "id": "/es/docs/event-flags",
+      "title": "Guía de Seguimiento Manual de Tráfico",
+      "content": "Aprende cómo marcar manualmente contenido para análisis preciso de tráfico y obtener insights más profundos sobre el rendimiento de tu página de aterrizaje",
+      "url": "/es/docs/event-flags",
+      "description": "Aprende cómo marcar manualmente contenido para análisis preciso de tráfico y obtener insights más profundos sobre el rendimiento de tu página de aterrizaje"
+    },
+    {
+      "id": "/es/docs/help",
+      "title": "Contáctanos",
+      "content": "Obtén soporte en tiempo real, ayuda con facturación, reporte de errores y acceso a documentación de frameworks para Landing Analytics",
+      "url": "/es/docs/help",
+      "description": "Obtén soporte en tiempo real, ayuda con facturación, reporte de errores y acceso a documentación de frameworks para Landing Analytics"
+    },
+    {
+      "id": "/es/api",
+      "title": "Introducción a la API",
+      "content": "Bienvenido a la API REST de Landing Analytics - La plataforma de análisis construida para fundadores. Construye dashboards personalizados, alimenta sistemas de IA e integra con tus propios sistemas.",
+      "url": "/es/api",
+      "description": "Bienvenido a la API REST de Landing Analytics - La plataforma de análisis construida para fundadores. Construye dashboards personalizados, alimenta sistemas de IA e integra con tus propios sistemas."
+    },
+    {
+      "id": "/es/api/createOrUpdateFlag",
+      "title": "Crear o Actualizar Bandera",
+      "content": "Crear una nueva bandera para el proyecto o actualizar una existente usando el endpoint POST /flag/{id_project}",
+      "url": "/es/api/createOrUpdateFlag",
+      "description": "Crear una nueva bandera para el proyecto o actualizar una existente usando el endpoint POST /flag/{id_project}"
+    },
+    {
+      "id": "/es/api/getAlternative",
+      "title": "Obtener Alternativa",
+      "content": "Recuperar información detallada sobre una alternativa específica incluyendo secciones y estado usando GET /alternative/{id_project}/{id_alternative}",
+      "url": "/es/api/getAlternative",
+      "description": "Recuperar información detallada sobre una alternativa específica incluyendo secciones y estado usando GET /alternative/{id_project}/{id_alternative}"
+    },
+    {
+      "id": "/es/api/getCurrentScenario",
+      "title": "Obtener Escenario Actual",
+      "content": "Recuperar el escenario actual en ejecución construido a partir de datos de seguimiento con ganador calculado usando GET /current_scenario/{id_project}",
+      "url": "/es/api/getCurrentScenario",
+      "description": "Recuperar el escenario actual en ejecución construido a partir de datos de seguimiento con ganador calculado usando GET /current_scenario/{id_project}"
+    },
+    {
+      "id": "/es/api/getDepthGraph",
+      "title": "Obtener Gráfico de Profundidad",
+      "content": "Recuperar el gráfico mostrando impresiones y tiempo gastado por sección para alternativas de seguimiento actuales usando GET /depth_graph/{id_project}",
+      "url": "/es/api/getDepthGraph",
+      "description": "Recuperar el gráfico mostrando impresiones y tiempo gastado por sección para alternativas de seguimiento actuales usando GET /depth_graph/{id_project}"
+    },
+    {
+      "id": "/es/api/getDepthOverview",
+      "title": "Obtener Resumen de Profundidad",
+      "content": "Recuperar estadísticas de resumen categorizadas por UTM, países, idioma, referrer y tipo de dispositivo usando GET /depth_overview/{id_project}",
+      "url": "/es/api/getDepthOverview",
+      "description": "Recuperar estadísticas de resumen categorizadas por UTM, países, idioma, referrer y tipo de dispositivo usando GET /depth_overview/{id_project}"
+    },
+    {
+      "id": "/es/api/getDepthStats",
+      "title": "Obtener Estadísticas de Profundidad",
+      "content": "Recuperar estadísticas completas a través de todas las alternativas actuales incluyendo visitantes, tráfico, secciones populares, etc. usando GET /depth_stats/{id_project}",
+      "url": "/es/api/getDepthStats",
+      "description": "Recuperar estadísticas completas a través de todas las alternativas actuales incluyendo visitantes, tráfico, secciones populares, etc. usando GET /depth_stats/{id_project}"
+    },
+    {
+      "id": "/es/api/getFlagGraph",
+      "title": "Obtener Gráfico de Banderas",
+      "content": "Recuperar el gráfico acumulativo de banderas a través de todas las alternativas y escenarios con impresiones usando GET /flag_graph/{id_project}",
+      "url": "/es/api/getFlagGraph",
+      "description": "Recuperar el gráfico acumulativo de banderas a través de todas las alternativas y escenarios con impresiones usando GET /flag_graph/{id_project}"
+    },
+    {
+      "id": "/es/api/getFlags",
+      "title": "Obtener Todas las Banderas",
+      "content": "Recuperar todas las banderas asociadas con un proyecto específico usando GET /flags/{id_project}",
+      "url": "/es/api/getFlags",
+      "description": "Recuperar todas las banderas asociadas con un proyecto específico usando GET /flags/{id_project}"
+    },
+    {
+      "id": "/es/api/getHealth",
+      "title": "Verificación de Salud",
+      "content": "Verificar si la API de exploración está ejecutándose usando el endpoint GET /health",
+      "url": "/es/api/getHealth",
+      "description": "Verificar si la API de exploración está ejecutándose usando el endpoint GET /health"
+    },
+    {
+      "id": "/es/api/getScenario",
+      "title": "Obtener Escenario",
+      "content": "Recuperar información detallada sobre un escenario específico incluyendo alternativas y secciones usando GET /scenario/{id_project}/{id_scenario}",
+      "url": "/es/api/getScenario",
+      "description": "Recuperar información detallada sobre un escenario específico incluyendo alternativas y secciones usando GET /scenario/{id_project}/{id_scenario}"
+    },
+    {
+      "id": "/es/api/getScenarios",
+      "title": "Obtener Todos los Escenarios",
+      "content": "Recuperar una lista de todos los escenarios almacenados para un proyecto dado usando GET /scenarios/{id_project}",
+      "url": "/es/api/getScenarios",
+      "description": "Recuperar una lista de todos los escenarios almacenados para un proyecto dado usando GET /scenarios/{id_project}"
+    },
+    {
+      "id": "/es/api/getSections",
+      "title": "Obtener Secciones",
+      "content": "Recuperar todas las secciones actuales que una alternativa está rastreando para un proyecto usando GET /sections/{id_project}",
+      "url": "/es/api/getSections",
+      "description": "Recuperar todas las secciones actuales que una alternativa está rastreando para un proyecto usando GET /sections/{id_project}"
+    },
+    {
+      "id": "/es/api/resetScenario",
+      "title": "Reiniciar Escenario",
+      "content": "Almacenar alternativas actuales como escenario y reiniciar todas las estadísticas, datos de seguimiento e información de resumen usando GET /scenario/reset/{id_project}",
+      "url": "/es/api/resetScenario",
+      "description": "Almacenar alternativas actuales como escenario y reiniciar todas las estadísticas, datos de seguimiento e información de resumen usando GET /scenario/reset/{id_project}"
+    },
+    {
+      "id": "/es/api/saveScenario",
+      "title": "Guardar Escenario",
+      "content": "Tomar una instantánea del estado actual del proyecto y guardar como escenario sin reiniciar ninguna información usando GET /scenario/save/{id_project}",
+      "url": "/es/api/saveScenario",
+      "description": "Tomar una instantánea del estado actual del proyecto y guardar como escenario sin reiniciar ninguna información usando GET /scenario/save/{id_project}"
+    }
+  ]

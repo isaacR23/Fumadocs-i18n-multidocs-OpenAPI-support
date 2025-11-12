@@ -21,6 +21,13 @@ const { provider } = defineI18nUI(i18n, {
   },
 });
 
+// This function is required for static export with dynamic routes
+export async function generateStaticParams() {
+  return i18n.languages.map((lang) => ({
+    lang,
+  }));
+}
+
 export default async function RootLayout({
   params,
   children,
@@ -36,6 +43,7 @@ export default async function RootLayout({
       <body>
         <RootProvider
           i18n={provider(lang)}
+          search={{enabled: false}}
         >
           {children}
         </RootProvider>

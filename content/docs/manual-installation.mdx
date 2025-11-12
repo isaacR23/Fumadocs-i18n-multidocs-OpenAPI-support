@@ -1,0 +1,282 @@
+---
+title: Manual Installation
+description: Install Fumadocs manually without the CLI
+---
+
+## Overview
+
+While the [Fumadocs CLI](/docs/quick-start) provides the easiest way to get started, you can also install Fumadocs manually in an existing project. This gives you full control over the setup process.
+
+## Prerequisites
+
+- Node.js 18+ and npm/yarn/pnpm
+- A Next.js 13+ project with App Router
+- Basic knowledge of React and TypeScript
+
+## Step 1: Install Dependencies
+
+Install the required packages:
+
+```bash
+npm install fumadocs-ui fumadocs-core fumadocs-mdx
+npm install -D @types/mdx
+```
+
+## Step 2: Configure MDX
+
+Create or update your `next.config.mjs`:
+
+```javascript
+import { createMDX } from 'fumadocs-mdx/next';
+
+const withMDX = createMDX();
+
+/** @type {import('next').NextConfig} */
+const config = {
+  reactStrictMode: true,
+};
+
+export default withMDX(config);
+```
+
+## Step 3: Set up Content Source
+
+Create `lib/source.ts`:
+
+```typescript
+import { docs } from '@/.source';
+import { loader } from 'fumadocs-core/source';
+
+export const source = loader({
+  baseUrl: '/docs',
+  source: docs.toFumadocsSource(),
+});
+```
+
+## Step 4: Create Source Configuration
+
+Create `source.config.ts` in your project root:
+
+```typescript
+import {
+  defineConfig,
+  defineDocs,
+  frontmatterSchema,
+  metaSchema,
+} from 'fumadocs-mdx/config';
+
+export const docs = defineDocs({
+  docs: {
+    schema: frontmatterSchema,
+  },
+  meta: {
+    schema: metaSchema,
+  },
+});
+
+export default defineConfig({
+  mdxOptions: {
+    // MDX options
+  },
+});
+```
+
+## Step 5: Set up Layouts
+
+### Root Layout
+
+Update `app/layout.tsx`:
+
+```tsx
+import '@/app/global.css';
+import { RootProvider } from 'fumadocs-ui/provider';
+import { Inter } from 'next/font/google';
+
+const inter = Inter({
+  subsets: ['latin'],
+});
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en" className={inter.className} suppressHydrationWarning>
+      <body className="flex flex-col min-h-screen">
+        <RootProvider>{children}</RootProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+### Docs Layout
+
+Create `app/docs/layout.tsx`:
+
+```tsx
+import { DocsLayout } from 'fumadocs-ui/layouts/docs';
+import { baseOptions } from '@/lib/layout.shared';
+import { source } from '@/lib/source';
+
+export default function Layout({ children }) {
+  return (
+    <DocsLayout tree={source.pageTree} {...baseOptions()}>
+      {children}
+    </DocsLayout>
+  );
+}
+```
+
+### Home Layout
+
+Create `app/(home)/layout.tsx`:
+
+```tsx
+import { HomeLayout } from 'fumadocs-ui/layouts/home';
+import { baseOptions } from '@/lib/layout.shared';
+
+export default function Layout({ children }) {
+  return <HomeLayout {...baseOptions()}>{children}</HomeLayout>;
+}
+```
+
+## Step 6: Create Shared Layout Options
+
+Create `lib/layout.shared.tsx`:
+
+```tsx
+import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
+
+export function baseOptions(): BaseLayoutProps {
+  return {
+    nav: {
+      title: "My App",
+    },
+    links: [
+      {
+        title: "Getting Started",
+        items: [
+          { title: "Introduction", href: "/docs" },
+          { title: "Quick Start", href: "/docs/quick-start" },
+        ],
+      },
+    ],
+  };
+}
+```
+
+## Step 7: Set up MDX Components
+
+Create `mdx-components.tsx`:
+
+```tsx
+import type { MDXComponents } from 'mdx/types';
+import defaultMdxComponents from 'fumadocs-ui/mdx';
+
+export function getMDXComponents(components: MDXComponents): MDXComponents {
+  return {
+    ...defaultMdxComponents,
+    ...components,
+  };
+}
+```
+
+## Step 8: Create Content Structure
+
+Create your documentation content:
+
+```
+content/docs/
+├── index.mdx
+├── quick-start.mdx
+└── api/
+    └── reference.mdx
+```
+
+Example `content/docs/index.mdx`:
+
+```mdx
+---
+title: Hello World
+description: Your first document
+---
+
+# Hello World
+
+Welcome to your documentation!
+
+## Getting Started
+
+Check out our [Quick Start guide](/docs/quick-start).
+```
+
+## Step 9: Add CSS
+
+Import the required CSS in `app/global.css`:
+
+```css
+@import 'tailwindcss';
+@import 'fumadocs-ui/css/neutral.css';
+@import 'fumadocs-ui/css/preset.css';
+```
+
+## Step 10: Configure TypeScript
+
+Update `tsconfig.json` to include the source types:
+
+```json
+{
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ]
+}
+```
+
+## Step 11: Add Scripts
+
+Update `package.json` scripts:
+
+```json
+{
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "postinstall": "fumadocs-mdx"
+  }
+}
+```
+
+## Verification
+
+After completing all steps:
+
+1. Run `npm run dev`
+2. Visit `http://localhost:3000/docs`
+3. You should see your documentation with the Fumadocs UI
+
+## Troubleshooting
+
+### Common Issues
+
+- **MDX not working**: Ensure `fumadocs-mdx` is properly configured in `next.config.mjs`
+- **TypeScript errors**: Check that all imports are correct and types are available
+- **Styling issues**: Verify CSS imports are in the correct order
+- **Build errors**: Run `npm run postinstall` to generate required files
+
+### Getting Help
+
+- Check the [Fumadocs documentation](https://fumadocs.dev)
+- Join the [Discord community](https://discord.gg/fumadocs)
+- Report issues on [GitHub](https://github.com/fuma-nama/fumadocs)
+
+## Next Steps
+
+- [Learn about Routing](/docs/routing)
+- [Explore Markdown features](/docs/markdown)
+- [Customize your theme](/docs/ui/themes)

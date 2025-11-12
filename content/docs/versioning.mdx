@@ -1,0 +1,160 @@
+---
+title: Versioning
+description: Implement multi-version documentation with Fumadocs
+---
+
+## Overview
+
+Versioning allows you to maintain multiple versions of your documentation, making it easy for users to access the right information for their version of your product.
+
+## Basic Setup
+
+Fumadocs provides built-in support for versioning through the `fumadocs-versioning` package.
+
+### Installation
+
+```bash
+npm install fumadocs-versioning
+```
+
+### Configuration
+
+Update your `source.config.ts`:
+
+```typescript
+import { defineConfig } from 'fumadocs-mdx/config';
+import { versioning } from 'fumadocs-versioning';
+
+export default defineConfig({
+  plugins: [
+    versioning({
+      versions: [
+        {
+          name: 'v2',
+          title: 'v2.x',
+          description: 'Latest stable version',
+          default: true,
+        },
+        {
+          name: 'v1',
+          title: 'v1.x',
+          description: 'Legacy version',
+        },
+      ],
+    }),
+  ],
+});
+```
+
+## Version Structure
+
+Organize your content by version:
+
+```
+content/docs/
+├── v2/
+│   ├── index.mdx
+│   ├── getting-started.mdx
+│   └── api/
+│       └── reference.mdx
+└── v1/
+    ├── index.mdx
+    ├── getting-started.mdx
+    └── api/
+        └── reference.mdx
+```
+
+## Version Switcher
+
+The version switcher automatically appears in your navigation, allowing users to switch between versions.
+
+## URL Structure
+
+With versioning enabled, your URLs will include the version:
+
+- `/docs/v2/getting-started` - v2 getting started
+- `/docs/v1/getting-started` - v1 getting started
+- `/docs/getting-started` - Default version (v2)
+
+## Default Version
+
+The default version is used when no version is specified in the URL. Users visiting `/docs` will see the default version.
+
+## Version Metadata
+
+Each version can have custom metadata:
+
+```typescript
+{
+  name: 'v2',
+  title: 'v2.x',
+  description: 'Latest stable version',
+  default: true,
+  // Custom metadata
+  releaseDate: '2024-01-01',
+  status: 'stable',
+}
+```
+
+## Migration Guide
+
+When creating a new major version:
+
+1. **Copy Content**: Copy relevant content from the previous version
+2. **Update Content**: Modify content to reflect new features and changes
+3. **Test Navigation**: Ensure all links and navigation work correctly
+4. **Update Default**: Set the new version as default when ready
+
+## Best Practices
+
+- **Consistent Structure**: Keep the same file structure across versions
+- **Clear Naming**: Use descriptive version names (v2.x, v1.x)
+- **Documentation**: Clearly document breaking changes between versions
+- **Deprecation**: Mark deprecated versions appropriately
+- **Testing**: Test navigation and links across all versions
+
+## Advanced Configuration
+
+### Custom Version Logic
+
+```typescript
+versioning({
+  versions: [
+    {
+      name: 'v2',
+      title: 'v2.x',
+      default: true,
+    },
+    {
+      name: 'v1',
+      title: 'v1.x',
+      // Custom logic for when to show this version
+      condition: () => process.env.NODE_ENV === 'development',
+    },
+  ],
+})
+```
+
+### Version-specific Components
+
+You can create version-specific components and layouts:
+
+```tsx
+import { useVersion } from 'fumadocs-versioning';
+
+function VersionSpecificComponent() {
+  const { version } = useVersion();
+  
+  if (version === 'v2') {
+    return <V2SpecificFeature />;
+  }
+  
+  return <V1Feature />;
+}
+```
+
+## Next Steps
+
+- [Learn about Integrations](/docs/integrations)
+- [Explore Internationalization](/docs/internationalization)
+- [Manual Installation](/docs/manual-installation)

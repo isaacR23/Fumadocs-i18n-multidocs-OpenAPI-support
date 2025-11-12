@@ -1,0 +1,84 @@
+---
+title: Routing
+description: Learn how routing works in Fumadocs
+---
+
+## File-based Routing
+
+Fumadocs uses file-based routing similar to Next.js. Your documentation structure is determined by the files in your `content/docs` directory.
+
+## Basic Structure
+
+```
+content/docs/
+├── index.mdx          # /docs
+├── getting-started.mdx # /docs/getting-started
+├── guides/
+│   ├── index.mdx      # /docs/guides
+│   └── advanced.mdx   # /docs/guides/advanced
+└── api/
+    └── reference.mdx  # /docs/api/reference
+```
+
+## Dynamic Routes
+
+For dynamic content, you can use catch-all routes:
+
+```typescript
+// app/docs/[[...slug]]/page.tsx
+export async function generateStaticParams() {
+  return source.generateParams();
+}
+```
+
+## Navigation
+
+Navigation is automatically generated based on your file structure and frontmatter:
+
+```mdx
+---
+title: My Page
+description: Page description
+---
+
+# My Page
+
+Content here...
+```
+
+## Custom Navigation
+
+You can customize navigation in `lib/layout.shared.tsx`:
+
+```typescript
+export function baseOptions(): BaseLayoutProps {
+  return {
+    links: [
+      {
+        title: "Getting Started",
+        items: [
+          { title: "Introduction", href: "/docs" },
+          { title: "Quick Start", href: "/docs/quick-start" },
+        ],
+      },
+      {
+        title: "Advanced",
+        items: [
+          { title: "Configuration", href: "/docs/configuration" },
+          { title: "Customization", href: "/docs/customization" },
+        ],
+      },
+    ],
+  };
+}
+```
+
+## Linking Between Pages
+
+Use relative links in your MDX files:
+
+```mdx
+- [Go to Quick Start](/docs/quick-start)
+- [Learn about Routing](/docs/routing)
+- [Back to Home](/docs)
+```

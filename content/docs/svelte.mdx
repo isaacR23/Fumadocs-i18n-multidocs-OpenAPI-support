@@ -1,0 +1,273 @@
+---
+title: Svelte Integration
+description: Learn how to integrate Landing Analytics with your Svelte and SvelteKit applications using our tracker script
+---
+
+## Introduction
+
+Landing Analytics provides a seamless integration with Svelte applications through our lightweight tracker script. This guide covers both standalone Svelte and SvelteKit applications.
+
+### FAQ
+
+**Is Landing Analytics compatible with SvelteKit?**
+Yes, Landing Analytics fully supports both standalone Svelte and SvelteKit applications, with automatic handling of server-side rendering (SSR).
+
+**What about TypeScript support?**
+Our tracker script includes full TypeScript support with type definitions for all tracking methods.
+
+## Script Setup
+
+Add the Landing Analytics tracker script to your Svelte application:
+
+```javascript
+// In your Svelte component
+import { onMount } from 'svelte'
+
+let currentVariant = null
+
+onMount(() => {
+  // Set the site ID and Public Token
+  window.LANDING_ANALYTICS_SITE_ID = '${route.params.project_id}'
+  window.LANDING_ANALYTICS_PUBLIC_TOKEN = '${user_account_token}'
+  window.LANDING_ANALYTICS_DNT = '${domainSettings.collectDNT}'
+  window.LANDING_VARIANTS = [
+    { name: 'control', path: '' }, 
+    { name: 'variant-a', path: '' }
+  ]
+  
+  // Create and append the script element
+  const script = document.createElement('script')
+  script.src = 'https://unpkg.com/@landinganalytics-lib/tracker' // Using the npm package
+  script.async = true
+  
+  // Wait for script to load, then get variant
+  script.onload = async () => {
+    setTimeout(async () => {
+      if (window.landing && window.landing.getVariant) {
+        try {
+          currentVariant = await window.landing.getVariant()
+          console.log('Variant assigned:', currentVariant)
+        } catch (error) {
+          console.error('Failed to get variant:', error)
+        }
+      }
+    }, 1000)
+  }
+  
+  document.head.appendChild(script)
+})
+```
+
+## Svelte Stores
+
+Create Svelte stores for reactive analytics state:
+
+```javascript
+// stores/analytics.js
+import { writable } from 'svelte/store'
+
+export const currentVariant = writable(null)
+
+export const loadTrackingScript = () => {
+  // Set configuration
+  window.LANDING_ANALYTICS_SITE_ID = '${route.params.project_id}'
+  window.LANDING_ANALYTICS_PUBLIC_TOKEN = '${user_account_token}'
+  window.LANDING_ANALYTICS_DNT = '${domainSettings.collectDNT}'
+  window.LANDING_VARIANTS = [
+    { name: 'control', path: '' }, 
+    { name: 'variant-a', path: '' }
+  ]
+  
+  const script = document.createElement('script')
+  script.src = 'https://unpkg.com/@landinganalytics-lib/tracker'
+  script.async = true
+  
+  script.onload = async () => {
+    setTimeout(async () => {
+      if (window.landing && window.landing.getVariant) {
+        try {
+          const variant = await window.landing.getVariant()
+          currentVariant.set(variant)
+        } catch (error) {
+          console.error('Failed to get variant:', error)
+        }
+      }
+    }, 1000)
+  }
+  
+  document.head.appendChild(script)
+}
+```
+
+## Svelte Actions
+
+Implement tracking using Svelte actions:
+
+```javascript
+// Track custom events
+function handleButtonClick() {
+  if (window.trackEvent) {
+    window.trackEvent('button_clicked', {
+      button_id: 'cta-button',
+      page: 'homepage'
+    })
+  }
+}
+
+// Use in Svelte actions
+const trackClick = (node, params) => {
+  const handleClick = () => {
+    if (window.trackEvent) {
+      window.trackEvent('element_clicked', params)
+    }
+  }
+  node.addEventListener('click', handleClick)
+  
+  return {
+    destroy() {
+      node.removeEventListener('click', handleClick)
+    }
+  }
+}
+
+// Form submission tracking
+function handleFormSubmit(formData) {
+  if (window.trackEvent) {
+    window.trackEvent('form_submission', {
+      formType: 'contact',
+      formData: { ...formData, message: 'Message content hidden for privacy' }
+    })
+  }
+}
+```
+
+## SvelteKit Integration
+
+Set up automatic page tracking in SvelteKit:
+
+```javascript
+import { onMount } from 'svelte'
+import { browser } from '$app/environment'
+import { PUBLIC_ANALYTICS_SITE_ID, PUBLIC_ANALYTICS_PUBLIC_TOKEN } from '$env/static/public'
+
+onMount(() => {
+  if (browser) {
+    window.LANDING_ANALYTICS_SITE_ID = '${route.params.project_id}'
+    window.LANDING_ANALYTICS_PUBLIC_TOKEN = '${user_account_token}'
+    window.LANDING_ANALYTICS_DNT = '${domainSettings.collectDNT}'
+    window.LANDING_VARIANTS = [
+      { name: 'control', path: '' },
+      { name: 'variant-a', path: '' }
+    ]
+
+    const script = document.createElement('script')
+    script.src = 'https://unpkg.com/@landinganalytics-lib/tracker'
+    script.async = true
+
+    script.onload = async () => {
+      setTimeout(async () => {
+        if (window.landing && window.landing.getVariant) {
+          try {
+            const variant = await window.landing.getVariant()
+            console.log('Variant assigned:', variant)
+          } catch (error) {
+            console.error('Failed to get variant:', error)
+          }
+        }
+      }, 1000)
+    }
+
+    document.head.appendChild(script)
+  }
+})
+```
+
+## Configuration
+
+Configure environment variables and settings:
+
+```bash
+PUBLIC_ANALYTICS_SITE_ID=your-site-id-here
+PUBLIC_ANALYTICS_PUBLIC_TOKEN=your-account-public-token-here
+```
+
+```javascript
+const config = {
+  kit: {
+    env: {
+      publicPrefix: 'PUBLIC_'
+    }
+  }
+}
+
+export default {
+  define: {
+    'process.env.PUBLIC_ANALYTICS_SITE_ID': JSON.stringify(process.env.PUBLIC_ANALYTICS_SITE_ID),
+    'process.env.PUBLIC_ANALYTICS_PUBLIC_TOKEN': JSON.stringify(process.env.PUBLIC_ANALYTICS_PUBLIC_TOKEN)
+  }
+}
+```
+
+## Tracking Events
+
+Track custom events using the global trackEvent function:
+
+```javascript
+if (window.trackEvent) {
+  window.trackEvent('page_viewed', {
+    title: 'Home Page',
+    path: '/'
+  })
+}
+
+const trackButtonClick = () => {
+  if (window.trackEvent) {
+    window.trackEvent('button_clicked', {
+      buttonId: 'cta-primary',
+      page: '/home'
+    })
+  }
+}
+
+const handleFormSubmit = (formData) => {
+  if (window.trackEvent) {
+    window.trackEvent('form_submission', {
+      formType: 'contact',
+      formData: { ...formData, message: 'Message content hidden for privacy' }
+    })
+  }
+}
+```
+
+## A/B Testing
+
+Implement A/B testing using the tracker variant functionality:
+
+```javascript
+import { writable } from 'svelte/store'
+
+export const currentVariant = writable(null)
+
+export const getVariant = async () => {
+  if (window.landing && window.landing.getVariant) {
+    try {
+      const variant = await window.landing.getVariant()
+      currentVariant.set(variant)
+      return variant
+    } catch (error) {
+      console.error('Failed to get variant:', error)
+      return null
+    }
+  }
+  return null
+}
+
+function trackExperimentView() {
+  if (window.trackEvent) {
+    window.trackEvent('experiment_viewed', {
+      experiment_name: 'button-color-test',
+      variant: currentVariant
+    })
+  }
+}
+```

@@ -1,0 +1,56 @@
+---
+title: Vue Installation
+description: Add Landing Analytics to your Vue application using the Composition API
+---
+
+## Installation with Composition API
+
+
+
+```javascript
+import { onMounted } from 'vue'
+
+export default {
+  setup() {
+    onMounted(() => {
+      // Set the site ID and Public Token
+      window.LANDING_ANALYTICS_SITE_ID = '${route.params.project_id}'
+      window.LANDING_ANALYTICS_PUBLIC_TOKEN = '${user_account_token}'
+      window.LANDING_ANALYTICS_DNT = '${domainSettings.collectDNT}'
+
+      // Create and append the script element
+      const script = document.createElement('script')
+      script.src = 'https://unpkg.com/@landinganalytics-lib/tracker'
+      script.async = true
+      document.head.appendChild(script)
+
+      // Log that the script was loaded
+      console.log('Tracking script loaded')
+    })
+  }
+}
+```
+
+## A/B Testing Setup
+
+To enable A/B testing, add the variants configuration before loading the script:
+
+```javascript
+onMounted(() => {
+  // Set up A/B testing variants
+  window.LANDING_VARIANTS = [
+    { name: 'ab', path: '/path#ab' },
+    { name: 'ba', path: '/path#ba' }
+  ]
+
+  // Rest of the installation code...
+})
+```
+
+## Security Best Practices
+
+- Store your Public Token in environment variables
+- Disable CORS to ensure proper endpoint communication
+- Consider implementing Cloudflare Turnstile or Google reCAPTCHA to prevent malicious traffic
+
+

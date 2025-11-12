@@ -1,0 +1,106 @@
+---
+title: Markdown
+description: Learn how to write content with Markdown and MDX
+---
+
+## Basic Markdown
+
+Fumadocs supports standard Markdown syntax:
+
+```markdown
+# Heading 1
+## Heading 2
+### Heading 3
+
+**Bold text**
+*Italic text*
+`inline code`
+
+- List item 1
+- List item 2
+  - Nested item
+
+1. Numbered list
+2. Second item
+
+[Link text](https://example.com)
+
+![Alt text](image.jpg)
+```
+
+## MDX Components
+
+You can use React components in your MDX files:
+
+```mdx
+import { Alert, Callout } from 'fumadocs-ui/components';
+
+<Alert>
+  This is an important notice.
+</Alert>
+
+<Callout>
+  This is a callout with additional information.
+</Callout>
+```
+
+## Code Blocks
+
+Syntax highlighting for code blocks:
+
+```javascript
+function hello() {
+  console.log("Hello, world!");
+}
+```
+
+```typescript
+interface User {
+  name: string;
+  age: number;
+}
+
+const user: User = {
+  name: "John",
+  age: 30
+};
+```
+
+## Frontmatter
+
+Each MDX file can have frontmatter metadata:
+
+```yaml
+---
+title: Page Title
+description: Page description for SEO
+icon: 🚀
+full: true
+---
+```
+
+## Custom Components
+
+You can create custom components in `mdx-components.tsx`:
+
+```tsx
+import type { MDXComponents } from 'mdx/types';
+
+export function getMDXComponents(components: MDXComponents): MDXComponents {
+  return {
+    h1: ({ children }) => (
+      <h1 className="text-4xl font-bold mb-6">{children}</h1>
+    ),
+    ...components,
+  };
+}
+```
+
+## Advanced Features
+
+- **Table of Contents**: Automatically generated from headings
+- **Internal Links**: Link between documentation pages
+- **Images**: Optimized image handling
+- **Math**: LaTeX math expressions support
+- **Diagrams**: Mermaid diagram support
+

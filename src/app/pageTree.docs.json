@@ -1,0 +1,259 @@
+{
+    "en": {
+        "title": "Documentation",
+        "description": "Documentation for the project",
+        "url": "/en/docs",
+        "children": [
+        {
+            "type": "separator",
+            "name": "Guide"
+        },
+        {
+            "type": "page",
+            "name": "Introduction",
+            "url": "/en/docs"
+        },
+        {
+            "type": "page",
+            "name": "Overview",
+            "url": "/en/docs/overview"
+        },
+        {
+            "type": "separator",
+            "name": "Getting Started"
+        },
+        {
+            "type": "page",
+            "name": "Quick Start Guide",
+            "url": "/en/docs/quick-start"
+        },
+        {
+            "type": "page",
+            "name": "llm.txt",
+            "url": "/en/docs/artificial-support"
+        },
+        {
+            "type": "separator",
+            "name": "Framework Integrations"
+        },
+        {
+            "type": "page",
+            "name": "HTML Integration",
+            "url": "/en/docs/html"
+        },
+        {
+            "type": "page",
+            "name": "Vue Integration",
+            "url": "/en/docs/vue"
+        },
+        {
+            "type": "page",
+            "name": "Nuxt Integration",
+            "url": "/en/docs/nuxt"
+        },
+        {
+            "type": "page",
+            "name": "React/Next.js",
+            "url": "/en/docs/next"
+        },
+        {
+            "type": "page",
+            "name": "Svelte Integration",
+            "url": "/en/docs/svelte"
+        },
+        {
+            "type": "page",
+            "name": "WordPress Plugin",
+            "url": "/en/docs/wordpress"
+        },
+        {
+            "type": "page",
+            "name": "Framer Integration",
+            "url": "/en/docs/framer"
+        },
+        {
+            "type": "separator",
+            "name": "Features"
+        },
+        {
+            "type": "page",
+            "name": "A/B Testing",
+            "url": "/en/docs/ab-testing"
+        },
+        {
+            "type": "page",
+            "name": "Feature Flags",
+            "url": "/en/docs/flags"
+        },
+        {
+            "type": "page",
+            "name": "Section Tracking",
+            "url": "/en/docs/section-tracking"
+        },
+        {
+            "type": "page",
+            "name": "Advanced Funnel Events",
+            "url": "/en/docs/funnel-events"
+        },
+        {
+            "type": "separator",
+            "name": "Learn More"
+        },
+        {
+            "type": "page",
+            "name": "What is Funnel Analysis?",
+            "url": "/en/docs/funnel"
+        },
+        {
+            "type": "page",
+            "name": "What is Saturation?",
+            "url": "/en/docs/saturation"
+        },
+        {
+            "type": "page",
+            "name": "Make money with frequent visitors",
+            "url": "/en/docs/frequent-visitors"
+        },
+        {
+            "type": "page",
+            "name": "Experiment with your landing page",
+            "url": "/en/docs/experiment"
+        },
+        {
+            "type": "page",
+            "name": "Event Flags and how to use them",
+            "url": "/en/docs/event-flags"
+        },
+        {
+            "type": "separator",
+            "name": "Help / Support"
+        },
+        {
+            "type": "page",
+            "name": "Contact Us",
+            "url": "/en/docs/help"
+        }
+    ]
+},
+    "es": {
+        "title": "Documentación",
+        "description": "Documentación para el proyecto",
+        "url": "/es/docs",
+        "children": [
+        {
+            "type": "separator",
+            "name": "Introducción"
+        },
+        {
+            "type": "page",
+            "name": "Resumen",
+            "url": "/es/docs/overview"
+        },
+        {
+            "type": "separator",
+            "name": "Comenzando"
+        },
+        {
+            "type": "page",
+            "name": "Guía de Inicio Rápido",
+            "url": "/es/docs/quick-start"
+        },
+        {
+            "type": "separator",
+            "name": "Integraciones de Framework"
+        },
+        {
+            "type": "page",
+            "name": "Integración HTML",
+            "url": "/es/docs/html"
+        },
+        {
+            "type": "page",
+            "name": "Integración Vue",
+            "url": "/es/docs/vue"
+        },
+        {
+            "type": "page",
+            "name": "Integración Nuxt",
+            "url": "/es/docs/nuxt"
+        },
+        {
+            "type": "page",
+            "name": "React/Next.js",
+            "url": "/es/docs/next"
+        },
+        {
+            "type": "page",
+            "name": "Integración Svelte",
+            "url": "/es/docs/svelte"
+        },
+        {
+            "type": "page",
+            "name": "Plugin de WordPress",
+            "url": "/es/docs/wordpress"
+        },
+        {
+            "type": "page",
+            "name": "Integración Framer",
+            "url": "/es/docs/framer"
+        },
+        {
+            "type": "separator",
+            "name": "Características"
+        },
+        {
+            "type": "page",
+            "name": "Pruebas A/B",
+            "url": "/es/docs/ab-testing"
+        },
+        {
+            "type": "page",
+            "name": "Banderas de Características",
+            "url": "/es/docs/flags"
+        },
+        {
+            "type": "page",
+            "name": "Seguimiento de Secciones",
+            "url": "/es/docs/section-tracking"
+        },
+        {
+            "type": "separator",
+            "name": "Aprende Más"
+        },
+        {
+            "type": "page",
+            "name": "¿Qué es el Análisis de Embudo?",
+            "url": "/es/docs/funnel"
+        },
+        {
+            "type": "page",
+            "name": "¿Qué es la Saturación?",
+            "url": "/es/docs/saturation"
+        },
+        {
+            "type": "page",
+            "name": "Gana dinero con visitantes frecuentes",
+            "url": "/es/docs/frequent-visitors"
+        },
+        {
+            "type": "page",
+            "name": "Experimenta con tu página de aterrizaje",
+            "url": "/es/docs/experiment"
+        },
+        {
+            "type": "page",
+            "name": "Banderas de Eventos y cómo usarlas",
+            "url": "/es/docs/event-flags"
+        },
+        {
+            "type": "separator",
+            "name": "Ayuda / Soporte"
+        },
+        {
+            "type": "page",
+            "name": "Contáctanos",
+            "url": "/es/docs/help"
+        }
+    ]
+}
+}

@@ -1,13 +1,74 @@
 ---
-title: Hello World
-description: Your first document
+title: Introduction
+description: Welcome to Landing Analytics - The analytics platform built for founders
 ---
 
-Welcome to the docs! You can start writing documents in `/content/docs`.
+import { Step, Steps } from 'fumadocs-ui/components/steps';
 
-## What is Next?
+## Overview
+The REST API is designed to facilitate the management of your analytics. You can build custom dashboards, feed artificial intelligence systems with new information, ingest performance metrics into your own systems - the possibilities are unlimited.
 
-<Cards>
-  <Card title="Learn more about Next.js" href="https://nextjs.org/docs" />
-  <Card title="Learn more about Fumadocs" href="https://fumadocs.vercel.app" />
-</Cards>
+To get started with the REST API, you need to:
+
+<Steps>
+<Step>
+
+### Go to the dashboard
+
+Navigate to your Landing Analytics dashboard.
+
+</Step>
+
+<Step>
+
+### Select a project
+
+Choose the project you want to work with from your project list.
+
+</Step>
+
+<Step>
+
+### Access API Keys
+
+Click on the top right corner of the project dashboard.
+
+</Step>
+
+<Step>
+
+### Navigate to Keys
+
+Select "Keys" from the dropdown menu to access your API credentials.
+
+</Step>
+
+<Step>
+
+### Copy your Secret API Key
+
+Copy the Secret API Key that you'll use as your bearer token.
+
+</Step>
+</Steps>
+
+This is the bearer token you'll use to interact with the different REST endpoints.
+
+## Important: Public Ingestion Token
+
+The public ingestion token is separate from your REST API key. The public token is used specifically for ingesting events into your account (for example, with the JavaScript tracker) and is shared across all your projects. The REST API key, on the other hand, is unique to each project and is used to authenticate requests to the REST API endpoints as described above.
+
+**⚠️ Warning:** If you regenerate this public ingestion token, the API key for ALL your projects will change.
+
+## Key Features
+
+- Privacy-focused analytics - we don't use cookies!
+- Easy integration with popular frameworks
+- Real-time data and insights
+- Track A/B testing with different landing pages
+- Mark relevant events on your traffic
+
+## Getting Started
+Ready to get started? Check out our Quick Start guide or explore our framework-specific integrations.
+
+
